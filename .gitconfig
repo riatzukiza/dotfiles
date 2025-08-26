@@ -3,3 +3,5 @@
 	name = Error
 [init]
 	defaultBranch = main
+[pull]
+	rebase = false
