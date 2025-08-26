@@ -1,0 +1,25 @@
+import = ["/home/err/.config/alacritty/themes/themes/monokai_pro.yaml"]
+
+[cursor.style]
+blinking = "On"
+shape = "Beam"
+
+[font]
+normal = { family = "Source Code Pro" }
+size = 5  # <— This is your new DPI knob
+offset = { x = 2, y = 1 }  # y = 1 or 2 adds breathing room
+builtin_box_drawing = true  # should be true
+
+
+
+[scrolling]
+history = 10000
+multiplier = 3
+
+[window]
+decorations = "none"
+opacity = 0.75
+
+[window.padding]
+x = 10
+y = 6

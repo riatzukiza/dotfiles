@@ -1,0 +1,44 @@
+matches:
+  - trigger: ":pi"
+    replace: "Π"
+  - trigger: ":mu"
+    replace: "μ"
+  - trigger: ":sigma"
+    replace: "Σ"
+  - trigger: ":tau"
+    replace: "τ"
+  - trigger: ":arr"
+    replace: "→"
+  - trigger: ":mix"
+    replace: "⊕"
+  - trigger: ":ten"
+    replace: "⊗"
+  - trigger: ":perp"
+    replace: "⟂"
+  - trigger: ":approx"
+    replace: "≈"
+  - trigger: ":eta"
+    replace: "η"
+
+  # role macros
+  - trigger: ":prn"
+    replace: "P→R→N"
+  - trigger: ":prnpi"
+    replace: "P→R→N→Π"
+  - trigger: ":loop"
+    replace: "P→R→N→Π→A→(feedback)→P"
+
+  # tick log (Obsidian/markdown)
+  - trigger: ":tick"
+    replace: |
+      ```json
+      {
+        "tick_id": "",
+        "med_state": "vyvanse:on",
+        "input": {"kind":"", "text_ref": "", "tokens": 0},
+        "retrieval": [{"doc_id":"", "owner":"err", "score":0.0}],
+        "identity": {"score": 0.0, "threshold": 0.75, "mahal": 0.0},
+        "policy": {"exit_after": "", "gate": true},
+        "action": {"kind": "", "ref": "", "status": "preview"}
+      }
+      ```
