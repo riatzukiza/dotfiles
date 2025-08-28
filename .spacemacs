@@ -34,7 +34,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(vimscript
+   '(clojure
+     vimscript
      systemd
      react
      python
@@ -709,41 +710,42 @@ This function is called at the very end of Spacemacs initialization."
  '(package-selected-packages
    '(a ace-link add-node-modules-path aggressive-indent aio alert all-the-icons
        auctex auto-compile auto-highlight-symbol auto-yasnippet
-       avy-jump-helm-line browse-at-remote centered-cursor-mode
-       clean-aindent-mode closql code-cells code-review column-enforce-mode
-       company company-web copilot copilot-chat cython-mode dactyl-mode deferred
-       define-word devdocs diff-hl diminish dired-quick-sort disable-mouse
-       dotenv-mode drag-stuff dumb-jump eat edit-indirect elisp-def elisp-demos
-       elisp-slime-nav ellama emacsql emmet-mode emojify emr esh-help
-       eshell-prompt-extras eshell-z eval-sexp-fu evil-anzu evil-args
-       evil-cleverparens evil-collection evil-easymotion evil-escape
-       evil-evilified-state evil-exchange evil-goggles evil-iedit-state
-       evil-indent-plus evil-lion evil-lisp-state evil-matchit evil-mc
-       evil-nerd-commenter evil-numbers evil-org evil-surround evil-textobj-line
-       evil-tutor evil-unimpaired evil-visual-mark-mode evil-visualstar
-       expand-region eyebrowse fancy-battery flycheck flycheck-elsa
-       flycheck-package flycheck-pos-tip forge gh-md ghub git-link git-messenger
-       git-modes git-timemachine gitignore-templates gntp gnuplot golden-ratio
-       google-translate gptel haml-mode helm-ag helm-c-yasnippet helm-comint
-       helm-company helm-css-scss helm-descbinds helm-git-grep helm-ls-git
-       helm-lsp helm-make helm-mode-manager helm-org helm-org-rifle
-       helm-projectile helm-purpose helm-pydoc helm-swoop helm-themes helm-xref
-       hide-comnt highlight-indentation highlight-numbers highlight-parentheses
-       hl-todo holy-mode htmlize hungry-delete hybrid-mode impatient-mode
-       indent-guide info+ inspector journalctl-mode json-mode json-navigator
-       json-reformat json-snatcher link-hint live-py-mode llama llm
-       load-env-vars log4e lorem-ipsum lsp-mode lsp-origami lsp-treemacs lsp-ui
-       macrostep magit magit-section markdown-mode markdown-toc mcp
-       monokai-theme multi-line multi-term multi-vterm mwim nameless
-       open-junk-file org-category-capture org-cliplink org-contrib org-download
-       org-mime org-pomodoro org-present org-project-capture org-projectile
-       org-rich-yank org-superstar orgit orgit-forge origami overseer
-       package-lint page-break-lines paradox password-generator pcre2el
-       pip-requirements pipenv pippel plz plz-event-source plz-media-type poetry
-       polymode popwin pos-tip pug-mode py-isort pydoc pyenv-mode pylookup
-       pytest pythonic pyvenv quickrun rainbow-delimiters request restart-emacs
-       rjsx-mode sass-mode scss-mode shell-maker shell-pop slim-mode smeargle
-       space-doc spaceline spacemacs-purpose-popwin spacemacs-whitespace-cleanup
+       avy-jump-helm-line browse-at-remote centered-cursor-mode cider
+       cider-eval-sexp-fu clean-aindent-mode clojure-mode clojure-snippets
+       closql code-cells code-review column-enforce-mode company company-web
+       copilot copilot-chat cython-mode dactyl-mode deferred define-word devdocs
+       diff-hl diminish dired-quick-sort disable-mouse dotenv-mode drag-stuff
+       dumb-jump eat edit-indirect elisp-def elisp-demos elisp-slime-nav ellama
+       emacsql emmet-mode emojify emr esh-help eshell-prompt-extras eshell-z
+       eval-sexp-fu evil-anzu evil-args evil-cleverparens evil-collection
+       evil-easymotion evil-escape evil-evilified-state evil-exchange
+       evil-goggles evil-iedit-state evil-indent-plus evil-lion evil-lisp-state
+       evil-matchit evil-mc evil-nerd-commenter evil-numbers evil-org
+       evil-surround evil-textobj-line evil-tutor evil-unimpaired
+       evil-visual-mark-mode evil-visualstar expand-region eyebrowse
+       fancy-battery flycheck flycheck-elsa flycheck-package flycheck-pos-tip
+       forge gh-md ghub git-link git-messenger git-modes git-timemachine
+       gitignore-templates gntp gnuplot golden-ratio google-translate gptel
+       haml-mode helm-ag helm-c-yasnippet helm-cider helm-comint helm-company
+       helm-css-scss helm-descbinds helm-git-grep helm-ls-git helm-lsp helm-make
+       helm-mode-manager helm-org helm-org-rifle helm-projectile helm-purpose
+       helm-pydoc helm-swoop helm-themes helm-xref hide-comnt
+       highlight-indentation highlight-numbers highlight-parentheses hl-todo
+       holy-mode htmlize hungry-delete hybrid-mode impatient-mode indent-guide
+       info+ inspector journalctl-mode json-mode json-navigator json-reformat
+       json-snatcher link-hint live-py-mode llama llm load-env-vars log4e
+       lorem-ipsum lsp-mode lsp-origami lsp-treemacs lsp-ui macrostep magit
+       magit-section markdown-mode markdown-toc mcp monokai-theme multi-line
+       multi-term multi-vterm mwim nameless open-junk-file org-category-capture
+       org-cliplink org-contrib org-download org-mime org-pomodoro org-present
+       org-project-capture org-projectile org-rich-yank org-superstar orgit
+       orgit-forge origami overseer package-lint page-break-lines paradox
+       parseclj parseedn password-generator pcre2el pip-requirements pipenv
+       pippel plz plz-event-source plz-media-type poetry polymode popwin pos-tip
+       pug-mode py-isort pydoc pyenv-mode pylookup pytest pythonic pyvenv queue
+       quickrun rainbow-delimiters request restart-emacs rjsx-mode sass-mode
+       scss-mode sesman shell-maker shell-pop slim-mode smeargle space-doc
+       spaceline spacemacs-purpose-popwin spacemacs-whitespace-cleanup
        sphinx-doc string-edit-at-point string-inflection symbol-overlay symon
        systemd tagedit term-cursor terminal-here texfrag toc-org toml-mode
        transient treemacs-evil treemacs-icons-dired treemacs-magit
