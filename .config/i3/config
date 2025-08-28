@@ -2,6 +2,7 @@ set $mod Mod4
 
 font pango:monospace 8
 include "./conf.d/**/*.conf"
+include "./conf.d/*/*.conf"
 
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
