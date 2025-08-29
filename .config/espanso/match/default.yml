@@ -12,7 +12,11 @@ matches:
   - trigger: ":sig"
     replace: "— your expansion —"
     # For Emacs, switch to clipboard paste with Shift+Insert + delay
-    vars: [{name: APP_IS_EMACS}]
+    vars: [{
+      name: APP_IS_EMACS,
+      type: shell,
+      params: { cmd: 'echo "$ESPANSO_APP_NAME" | grep -iq emacs && echo 1 || echo 0' }
+      }]
     conditions: ["var.APP_IS_EMACS == 1"]
     use_clipboard: true
     propagate_case: false
