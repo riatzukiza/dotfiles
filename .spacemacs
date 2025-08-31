@@ -34,56 +34,58 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(  (clojure :variables
-                clojure-enable-fancify-symbols t
-                clojure-enable-linters t)
-       ;; For bb: use a plain terminal REPL mode
-       ;; (shell :variables shell-default-shell 'eshell)
-       ;; You still install these packages below
-       vimscript
-       systemd
-       react
-       python
-       (typescript :variables
-                   typescript-linter 'eslint
-                   node-add-modules-path t
-                   )
-       (javascript :variables
-                   javascript-fmt-tool 'prettier
-                   node-add-modules-path t
-                   )
-       html
-       toml
-       promethean
-       yaml
-       html
-       ;; company
-       auto-completion
-       (better-defaults :variables relative-line-numbers t)
-       emacs-lisp
-       autoload-lab
-       git
-       helm
-       lsp
-       markdown
-       multiple-cursors
-       ;; eww
-       org
-       github-copilot
+   '(sql
+     nginx
+     (clojure :variables
+              clojure-enable-fancify-symbols t
+              clojure-enable-linters t)
+     ;; For bb: use a plain terminal REPL mode
+     ;; (shell :variables shell-default-shell 'eshell)
+     ;; You still install these packages below
+     vimscript
+     systemd
+     react
+     python
+     (typescript :variables
+                 typescript-linter 'eslint
+                 node-add-modules-path t
+                 )
+     (javascript :variables
+                 javascript-fmt-tool 'prettier
+                 node-add-modules-path t
+                 )
+     html
+     toml
+     promethean
+     yaml
+     html
+     ;; company
+     auto-completion
+     (better-defaults :variables relative-line-numbers t)
+     emacs-lisp
+     autoload-lab
+     git
+     helm
+     lsp
+     markdown
+     multiple-cursors
+     ;; eww
+     org
+     github-copilot
 
-       prom-unique
-       promethean
-       (shell :variables
-              shell-default-height 30
-              shell-default-position 'bottom
-              shell-default-shell 'vterm)
-       ;; spell-checking
-       syntax-checking
-       version-control
-       (llm-client :variables llm-client-enable-ellama t
-                   llm-client-enable-gptel t)
+     prom-unique
+     promethean
+     (shell :variables
+            shell-default-height 30
+            shell-default-position 'bottom
+            shell-default-shell 'vterm)
+     ;; spell-checking
+     syntax-checking
+     version-control
+     (llm-client :variables llm-client-enable-ellama t
+                 llm-client-enable-gptel t)
 
-       treemacs)
+     treemacs)
 
 
    ;; List of additional packages that will be installed without being wrapped
@@ -368,12 +370,12 @@ It should only modify the values of Spacemacs settings."
    ;; put the most likely path on the top of `load-path' to reduce walking
    ;; through the whole `load-path'. It's an experimental feature to speedup
    ;; Spacemacs on Windows. Refer the FAQ.org "load-hints" session for details.
-   dotspacemacs-enable-load-hints t
+   dotspacemacs-enable-load-hints nil
 
    ;; If t, enable the `package-quickstart' feature to avoid full package
    ;; loading, otherwise no `package-quickstart' attemption (default nil).
    ;; Refer the FAQ.org "package-quickstart" section for details.
-   dotspacemacs-enable-package-quickstart t
+   dotspacemacs-enable-package-quickstart nil
 
    ;; If non-nil a progress bar is displayed when spacemacs is loading. This
    ;; may increase the boot time on some systems and emacs builds, set it to
@@ -742,23 +744,24 @@ This function is called at the very end of Spacemacs initialization."
          json-snatcher link-hint live-py-mode llama llm load-env-vars log4e
          lorem-ipsum lsp-mode lsp-origami lsp-treemacs lsp-ui macrostep magit
          magit-section markdown-mode markdown-toc mcp monokai-theme multi-line
-         multi-term multi-vterm mwim nameless open-junk-file org-category-capture
-         org-cliplink org-contrib org-download org-mime org-pomodoro org-present
-         org-project-capture org-projectile org-rich-yank org-superstar orgit
-         orgit-forge origami overseer package-lint page-break-lines paradox
-         parseclj parseedn password-generator pcre2el pip-requirements pipenv
-         pippel plz plz-event-source plz-media-type poetry polymode popwin pos-tip
-         pug-mode py-isort pydoc pyenv-mode pylookup pytest pythonic pyvenv queue
-         quickrun rainbow-delimiters request restart-emacs rjsx-mode sass-mode
-         scss-mode sesman shell-maker shell-pop slim-mode smeargle space-doc
-         spaceline spacemacs-purpose-popwin spacemacs-whitespace-cleanup
-         sphinx-doc string-edit-at-point string-inflection symbol-overlay symon
-         systemd tagedit term-cursor terminal-here texfrag toc-org toml-mode
-         transient treemacs-evil treemacs-icons-dired treemacs-magit
-         treemacs-persp treemacs-projectile treepy undo-fu undo-fu-session unfill
-         uuidgen vi-tilde-fringe vimrc-mode volatile-highlights vterm vundo
-         web-beautify web-completion-data web-mode wgrep winum with-editor
-         writeroom-mode ws-butler yaml yaml-mode yasnippet yasnippet-snippets))
+         multi-term multi-vterm mwim nameless nginx-mode open-junk-file
+         org-category-capture org-cliplink org-contrib org-download org-mime
+         org-pomodoro org-present org-project-capture org-projectile org-rich-yank
+         org-superstar orgit orgit-forge origami overseer package-lint
+         page-break-lines paradox parseclj parseedn password-generator pcre2el
+         pip-requirements pipenv pippel plz plz-event-source plz-media-type poetry
+         polymode popwin pos-tip pug-mode py-isort pydoc pyenv-mode pylookup
+         pytest pythonic pyvenv queue quickrun rainbow-delimiters request
+         restart-emacs rjsx-mode sass-mode scss-mode sesman shell-maker shell-pop
+         slim-mode smeargle space-doc spaceline spacemacs-purpose-popwin
+         spacemacs-whitespace-cleanup sphinx-doc sql-indent sqlup-mode
+         string-edit-at-point string-inflection symbol-overlay symon systemd
+         tagedit term-cursor terminal-here texfrag toc-org toml-mode transient
+         treemacs-evil treemacs-icons-dired treemacs-magit treemacs-persp
+         treemacs-projectile treepy undo-fu undo-fu-session unfill uuidgen
+         vi-tilde-fringe vimrc-mode volatile-highlights vterm vundo web-beautify
+         web-completion-data web-mode wgrep winum with-editor writeroom-mode
+         ws-butler yaml yaml-mode yasnippet yasnippet-snippets))
    '(safe-local-variable-values
      '((eval promethean-lsp-append-gitignore-to-ignored-dirs)
        (typescript-backend . tide) (typescript-backend . lsp)
