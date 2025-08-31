@@ -167,22 +167,8 @@ esac
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 alias cfg="git --git-dir=$HOME/.cfg --work-tree=$HOME"
-cfg add .bashrc .gitconfig .config/i3/config \
-    .config/i3/conf.d/ \
-    .config/espanso/ \
-    .config/alacritty/alacritty.toml \
-    .config/nvim/init.vim \
-    .config/fontconfig/fonts.conf \
-    .config/htop/htoprc \
-    .config/picom/picom.conf \
-    .spacemacs \
-    .profile 
-
-cfg commit -m "backup"
-cfg remote add origin git@github.com:riatzukiza/dotfiles.git
-cfg push -u origin main
 # Load pyenv automatically by appending
-# the following to 
+# the following to
 # ~/.bash_profile if it exists, otherwise ~/.profile (for login shells)
 # and ~/.bashrc (for interactive shells) :
 
@@ -196,3 +182,41 @@ eval "$(pyenv init - bash)"
 # the following to ~/.bashrc:
 
 eval "$(pyenv virtualenv-init -)"
+export LIBPYTHON=/home/err/.pyenv/versions/3.12.1/lib/libpython3.12.so
+
+export CFG_BRANCH_NAME=device/$HOSTNAME
+
+# Backup dotfiles
+
+# if the cfg repo is not initialized yet
+if [ ! -d $HOME/.cfg ]; then
+    git clone --bare
+fi
+
+# If not alredy on the correct branch
+if [ "$(cfg rev-parse --abbrev-ref HEAD)" != "$CFG_BRANCH_NAME" ]; then
+    cfg checkout -b $CFG_BRANCH_NAME
+fi
+
+
+## If the remote is not set yet
+if ! cfg remote | grep origin; then
+    cfg remote add origin git@github.com:riatzukiza/dotfiles.git
+fi
+
+cfg pull origin $CFG_BRANCH_NAME
+cfg add .bashrc .gitconfig .config/i3/config \
+    .config/i3/conf.d/ \
+    .config/espanso/ \
+    .config/alacritty/alacritty.toml \
+    .config/nvim/init.vim \
+    .config/fontconfig/fonts.conf \
+    .config/htop/htoprc \
+    .config/picom/picom.conf \
+    .spacemacs \
+    .profile \
+    .bash_profile
+
+
+cfg commit -m "backup"
+cfg push -u origin $CFG_BRANCH_NAME
