@@ -698,6 +698,26 @@ before packages are loaded."
     ;; add more aliases as needed:
     ;; (add-to-list 'markdown-code-lang-modes '("rkt" . scheme-mode))
     )
+  ;; Native fontification for fenced blocks
+  (with-eval-after-load 'markdown-mode
+    (setq markdown-fontify-code-blocks-natively t)
+    (let* ((ts-mode (cond
+                     ((fboundp 'typescript-ts-mode) 'typescript-ts-mode)
+                     ((fboundp 'typescript-mode) 'typescript-mode)
+                     (t 'js-mode)))           ;; worst-case fallback
+           (tsx-mode (cond
+                      ((fboundp 'tsx-ts-mode) 'tsx-ts-mode)
+                      ((fboundp 'typescript-ts-mode) 'typescript-ts-mode)
+                      ((fboundp 'typescript-mode) 'typescript-mode)
+                      (t ts-mode))))
+      (dolist (pair `(("ts"        . ,ts-mode)
+                      ("tsx"       . ,tsx-mode)
+                      ("bb"        . clojure-mode)   ;; babashka is clojure
+                      ("babashka"  . clojure-mode)
+                      ("clj"       . clojure-mode)   ;; convenience
+                      ("edn"       . clojure-mode)))
+        (add-to-list 'markdown-code-lang-modes pair))))
+  (add-to-list 'auto-mode-alist '("\\.bb\\'" . clojure-mode))
 
 
   )
