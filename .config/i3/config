@@ -44,3 +44,14 @@ bindsym $mod+Return exec --no-startup-id ~/bin/emvterm
 bar {
     status_command i3blocks
 }
+# Free up the default
+# unbindsym $mod+space
+# Keep i3's old layout-toggle on a new combo (optional)
+# bindsym $mod+Shift+space focus mode_toggle
+
+# Spotlight-like launcher/switcher
+bindsym $mod+space exec --no-startup-id rofi -show combi
+# Optional dedicated modes:
+# bindsym $mod+F exec --no-startup-id rofi -show files
+# bindsym $mod+P exec --no-startup-id rofi -show drun
+# bindsym $mod+W exec --no-startup-id rofi -show window
