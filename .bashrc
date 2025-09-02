@@ -6,6 +6,14 @@ esac
 
 # Path to your oh-my-bash installation.
 export OSH='/home/err/.oh-my-bash'
+# --- Hide hostname in Oh-My-Bash prompt (put this after oh-my-bash.sh) ---
+# Remove "user@host" → keep just "user" (handles \u@\h and lone \h/\H)
+PS1="${PS1//@\\h/}"    # drops the "@\h" part if present
+PS1="${PS1//\\h/}"     # drops any remaining "\h"
+PS1="${PS1//\\H/}"     # drops any "\H" (FQDN) just in case
+# Optional: if your theme cached PS1 via PROMPT_COMMAND, re-apply on each prompt
+# PROMPT_COMMAND=':'  # uncomment only if your theme keeps undoing the change
+
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-bash is loaded.
