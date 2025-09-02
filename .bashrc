@@ -235,7 +235,10 @@ vterm_printf(){
 vterm_prompt_end(){
     vterm_printf "51;A$(whoami)@$(hostname):$(pwd)"
 }
+vterm_prompt_precmd() { vterm_printf "A${USER}@${HOSTNAME}:$(pwd)"; }
 PS1=$PS1'\[$(vterm_prompt_end)\]'
 if [ -n "$BASH_VERSION" ]; then
     PROMPT_COMMAND="vterm_prompt_precmd${PROMPT_COMMAND:+;$PROMPT_COMMAND}"
 fi
+
+PATH="$PATH:/home/err/bin"
