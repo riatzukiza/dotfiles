@@ -34,7 +34,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(sql
+   '(purescript
+     sql
      nginx
      (clojure :variables
               clojure-enable-fancify-symbols t
@@ -100,6 +101,7 @@ This function should only modify configuration layer settings."
                                       yasnippet-snippets
                                       prettier-js
                                       lsp-sonarlint
+                                      obsidian
                                       )
 
    ;; A list of packages that cannot be updated.
@@ -771,20 +773,21 @@ This function is called at the very end of Spacemacs initialization."
          helm-pydoc helm-swoop helm-themes helm-xref hide-comnt
          highlight-indentation highlight-numbers highlight-parentheses hl-todo
          holy-mode htmlize hungry-delete hybrid-mode impatient-mode indent-guide
-         info+ inspector journalctl-mode json-mode json-navigator json-reformat
-         json-snatcher link-hint live-py-mode llama llm load-env-vars log4e
-         lorem-ipsum lsp-mode lsp-origami lsp-treemacs lsp-ui macrostep magit
-         magit-section markdown-mode markdown-toc mcp monokai-theme multi-line
-         multi-term multi-vterm mwim nameless nginx-mode open-junk-file
-         org-category-capture org-cliplink org-contrib org-download org-mime
-         org-pomodoro org-present org-project-capture org-projectile org-rich-yank
-         org-superstar orgit orgit-forge origami overseer package-lint
-         page-break-lines paradox parseclj parseedn password-generator pcre2el
-         pip-requirements pipenv pippel plz plz-event-source plz-media-type poetry
-         polymode popwin pos-tip pug-mode py-isort pydoc pyenv-mode pylookup
-         pytest pythonic pyvenv queue quickrun rainbow-delimiters request
-         restart-emacs rjsx-mode sass-mode scss-mode sesman shell-maker shell-pop
-         slim-mode smeargle space-doc spaceline spacemacs-purpose-popwin
+         info+ inheritenv inspector journalctl-mode json-mode json-navigator
+         json-reformat json-snatcher link-hint live-py-mode llama llm
+         load-env-vars log4e lorem-ipsum lsp-mode lsp-origami lsp-treemacs lsp-ui
+         macrostep magit magit-section markdown-mode markdown-toc mcp
+         monokai-theme multi-line multi-term multi-vterm mwim nameless nginx-mode
+         open-junk-file org-category-capture org-cliplink org-contrib org-download
+         org-mime org-pomodoro org-present org-project-capture org-projectile
+         org-rich-yank org-superstar orgit orgit-forge origami overseer
+         package-lint page-break-lines paradox parseclj parseedn
+         password-generator pcre2el pip-requirements pipenv pippel plz
+         plz-event-source plz-media-type poetry polymode popwin pos-tip psc-ide
+         psci pug-mode purescript-mode py-isort pydoc pyenv-mode pylookup pytest
+         pythonic pyvenv queue quickrun rainbow-delimiters request restart-emacs
+         rjsx-mode sass-mode scss-mode sesman shell-maker shell-pop slim-mode
+         smeargle space-doc spaceline spacemacs-purpose-popwin
          spacemacs-whitespace-cleanup sphinx-doc sql-indent sqlup-mode
          string-edit-at-point string-inflection symbol-overlay symon systemd
          tagedit term-cursor terminal-here texfrag toc-org toml-mode transient

@@ -228,3 +228,14 @@ cfg add .bashrc .gitconfig .config/i3/config \
 
 cfg commit -m "backup"
 cfg push -u origin $CFG_BRANCH_NAME
+
+vterm_printf(){
+    printf "\e]%s\e\\" "$1"
+}
+vterm_prompt_end(){
+    vterm_printf "51;A$(whoami)@$(hostname):$(pwd)"
+}
+PS1=$PS1'\[$(vterm_prompt_end)\]'
+if [ -n "$BASH_VERSION" ]; then
+    PROMPT_COMMAND="vterm_prompt_precmd${PROMPT_COMMAND:+;$PROMPT_COMMAND}"
+fi
