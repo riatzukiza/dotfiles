@@ -99,6 +99,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages '(
                                       yasnippet-snippets
                                       prettier-js
+                                      lsp-sonarlint
                                       )
 
    ;; A list of packages that cannot be updated.
@@ -719,6 +720,16 @@ before packages are loaded."
         (add-to-list 'markdown-code-lang-modes pair))))
   (add-to-list 'auto-mode-alist '("\\.bb\\'" . clojure-mode))
 
+  (setq lsp-idle-delay 0.3
+        lsp-file-watch-threshold 5000
+        lsp-completion-enable-additional-text-edit nil)
+
+  ;; SonarLint client
+  (use-package lsp-sonarlint
+    :after lsp-mode
+    :custom
+    (lsp-sonarlint-auto-download t)     ;; download VSCode SonarLint bundle
+    (lsp-sonarlint-enabled-analyzers '("javascript" "typescript" "python" "java" "cfamily")))
 
   )
 
