@@ -19,6 +19,8 @@ This function should only modify configuration layer settings."
      sql
      nginx
      llm
+
+     semantic-search
      err-core
      (clojure :variables
               clojure-enable-fancify-symbols t
@@ -514,15 +516,16 @@ This function is called at the very end of Spacemacs initialization."
          avy-jump-helm-line browse-at-remote centered-cursor-mode cider
          cider-eval-sexp-fu clean-aindent-mode clojure-mode clojure-snippets
          closql code-cells code-review column-enforce-mode company company-web
-         copilot copilot-chat cython-mode dactyl-mode deferred define-word devdocs
-         diff-hl diminish dired-quick-sort disable-mouse dotenv-mode drag-stuff
-         dumb-jump eat edit-indirect elgrep elisp-def elisp-demos elisp-slime-nav
-         ellama emacsql emmet-mode emojify emr esh-help eshell-prompt-extras
-         eshell-z eval-sexp-fu evil-anzu evil-args evil-cleverparens
-         evil-collection evil-easymotion evil-escape evil-evilified-state
-         evil-exchange evil-goggles evil-iedit-state evil-indent-plus evil-lion
-         evil-lisp-state evil-matchit evil-mc evil-nerd-commenter evil-numbers
-         evil-org evil-surround evil-textobj-line evil-tutor evil-unimpaired
+         consult consult-lsp consult-omni copilot copilot-chat cython-mode
+         dactyl-mode deferred define-word devdocs diff-hl diminish
+         dired-quick-sort disable-mouse dotenv-mode drag-stuff dumb-jump eat
+         edit-indirect elgrep elisp-def elisp-demos elisp-slime-nav ellama emacsql
+         emmet-mode emojify emr esh-help eshell-prompt-extras eshell-z
+         eval-sexp-fu evil-anzu evil-args evil-cleverparens evil-collection
+         evil-easymotion evil-escape evil-evilified-state evil-exchange
+         evil-goggles evil-iedit-state evil-indent-plus evil-lion evil-lisp-state
+         evil-matchit evil-mc evil-nerd-commenter evil-numbers evil-org
+         evil-surround evil-textobj-line evil-tutor evil-unimpaired
          evil-visual-mark-mode evil-visualstar expand-region eyebrowse
          fancy-battery flycheck flycheck-elsa flycheck-package flycheck-pos-tip
          forge gh-md ghub git-link git-messenger git-modes git-timemachine
@@ -547,7 +550,7 @@ This function is called at the very end of Spacemacs initialization."
          polymode popwin pos-tip psc-ide psci pug-mode purescript-mode py-isort
          pydoc pyenv-mode pylookup pytest pythonic pyvenv queue quickrun
          rainbow-delimiters request restart-emacs rjsx-mode sass-mode scss-mode
-         sesman shell-maker shell-pop slim-mode smeargle space-doc spaceline
+         sem sesman shell-maker shell-pop slim-mode smeargle space-doc spaceline
          spacemacs-purpose-popwin spacemacs-whitespace-cleanup sphinx-doc
          sql-indent sqlup-mode string-edit-at-point string-inflection
          symbol-overlay symon systemd tagedit term-cursor terminal-here texfrag
