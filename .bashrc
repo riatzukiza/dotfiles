@@ -155,20 +155,32 @@ source "$OSH"/oh-my-bash.sh
 # Example aliases
 # alias bashconfig="mate ~/.bashrc"
 # alias ohmybash="mate ~/.oh-my-bash"
-eval "$(direnv hook bash)"
-
-# pnpm
-export PNPM_HOME="/home/err/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
-
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+export CFG_BRANCH_NAME=device/$HOSTNAME
 alias cfg="git --git-dir=$HOME/.cfg --work-tree=$HOME"
+
+# Backup dotfiles
+
+
+# if the cfg repo is not initialized yet
+if [ ! -d $HOME/.cfg ]; then
+    git clone --bare
+fi
+
+# If not alredy on the correct branch
+if [ "$(cfg rev-parse --abbrev-ref HEAD)" != "$CFG_BRANCH_NAME" ]; then
+    cfg checkout -b $CFG_BRANCH_NAME
+fi
+
+
+## If the remote is not set yet
+if ! cfg remote | grep origin; then
+    cfg remote add origin git@github.com:riatzukiza/dotfiles.git
+fi
+
+cfg pull origin $CFG_BRANCH_NAME
 cfg add .bashrc .gitconfig .config/i3/config \
     .config/i3/conf.d/ \
+    .config/i3/config \
     .config/espanso/ \
     .config/alacritty/alacritty.toml \
     .config/nvim/init.vim \
@@ -176,23 +188,23 @@ cfg add .bashrc .gitconfig .config/i3/config \
     .config/htop/htoprc \
     .config/picom/picom.conf \
     .spacemacs \
-    .profile 
+    .profile \
+    .bash_profile
+
 
 cfg commit -m "backup"
-cfg remote add origin git@github.com:riatzukiza/dotfiles.git
-cfg push -u origin main
-# Load pyenv automatically by appending
-# the following to 
-# ~/.bash_profile if it exists, otherwise ~/.profile (for login shells)
-# and ~/.bashrc (for interactive shells) :
+cfg push -u origin $CFG_BRANCH_NAME
 
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init - bash)"
+vterm_printf(){
+    printf "\e]%s\e\\" "$1"
+}
+vterm_prompt_end(){
+    vterm_printf "51;A$(whoami)@$(hostname):$(pwd)"
+}
+vterm_prompt_precmd() { vterm_printf "A${USER}@${HOSTNAME}:$(pwd)"; }
+PS1=$PS1'\[$(vterm_prompt_end)\]'
+if [ -n "$BASH_VERSION" ]; then
+    PROMPT_COMMAND="vterm_prompt_precmd${PROMPT_COMMAND:+;$PROMPT_COMMAND}"
+fi
 
-# Restart your shell for the changes to take effect.
-
-# Load pyenv-virtualenv automatically by adding
-# the following to ~/.bashrc:
-
-eval "$(pyenv virtualenv-init -)"
+PATH="$PATH:/home/err/bin"

@@ -752,7 +752,12 @@ This function is called at the very end of Spacemacs initialization."
        treemacs-persp treemacs-projectile treepy undo-fu undo-fu-session unfill
        uuidgen vi-tilde-fringe vimrc-mode volatile-highlights vterm vundo
        web-beautify web-completion-data web-mode wgrep winum with-editor
-       writeroom-mode ws-butler yaml yaml-mode yasnippet yasnippet-snippets)))
+       writeroom-mode ws-butler yaml yaml-mode yasnippet yasnippet-snippets))
+ '(safe-local-variable-values
+   '((eval promethean-lsp-append-gitignore-to-ignored-dirs)
+     (typescript-backend . tide) (typescript-backend . lsp)
+     (javascript-backend . tide) (javascript-backend . tern)
+     (javascript-backend . lsp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
