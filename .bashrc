@@ -6,11 +6,6 @@ esac
 
 # Path to your oh-my-bash installation.
 export OSH='/home/err/.oh-my-bash'
-# --- Hide hostname in Oh-My-Bash prompt (put this after oh-my-bash.sh) ---
-# Remove "user@host" → keep just "user" (handles \u@\h and lone \h/\H)
-PS1="${PS1//@\\h/}"    # drops the "@\h" part if present
-PS1="${PS1//\\h/}"     # drops any remaining "\h"
-PS1="${PS1//\\H/}"     # drops any "\H" (FQDN) just in case
 # Optional: if your theme cached PS1 via PROMPT_COMMAND, re-apply on each prompt
 # PROMPT_COMMAND=':'  # uncomment only if your theme keeps undoing the change
 
@@ -164,6 +159,12 @@ source "$OSH"/oh-my-bash.sh
 # alias bashconfig="mate ~/.bashrc"
 # alias ohmybash="mate ~/.oh-my-bash"
 eval "$(direnv hook bash)"
+
+# --- Hide hostname in Oh-My-Bash prompt (put this after oh-my-bash.sh) ---
+# Remove "user@host" → keep just "user" (handles \u@\h and lone \h/\H)
+PS1="${PS1//@\\h/}"    # drops the "@\h" part if present
+PS1="${PS1//\\h/}"     # drops any remaining "\h"
+PS1="${PS1//\\H/}"     # drops any "\H" (FQDN) just in case
 
 # pnpm
 export PNPM_HOME="/home/err/.local/share/pnpm"
