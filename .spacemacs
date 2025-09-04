@@ -34,6 +34,8 @@ This function should only modify configuration layer settings."
      python
      (typescript :variables
                  typescript-linter 'eslint
+                 typescript-fmt-on-save t
+                 typescript-fmt-tool 'prettier
                  node-add-modules-path t
                  )
      (javascript :variables
@@ -42,7 +44,7 @@ This function should only modify configuration layer settings."
                  )
      html
      toml
-     promethean
+                                        ;promethean
      yaml
      html
      ;; company
@@ -60,12 +62,11 @@ This function should only modify configuration layer settings."
      github-copilot
 
      prom-unique
-     promethean
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom
             shell-default-shell 'vterm)
-     ;; spell-checking
+     spell-checking
      syntax-checking
      version-control
      (llm-client :variables llm-client-enable-ellama t
@@ -481,6 +482,14 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  (require 'prettier-js)
+  (add-hook 'typescript-mode-hook 'prettier-js-mode)
+  (add-hook 'web-mode-hook 'prettier-js-mode)
+  (eval-after-load 'web-mode
+    '(add-hook 'web-mode-hook #'add-node-modules-path))
+  (eval-after-load 'typescript-mode
+    '(add-hook 'typescript-mode-hook #'add-node-modules-path))
+
 
   )
 
@@ -528,17 +537,18 @@ This function is called at the very end of Spacemacs initialization."
          evil-surround evil-textobj-line evil-tutor evil-unimpaired
          evil-visual-mark-mode evil-visualstar expand-region eyebrowse
          fancy-battery flycheck flycheck-elsa flycheck-package flycheck-pos-tip
-         forge gh-md ghub git-link git-messenger git-modes git-timemachine
-         gitignore-templates gntp gnuplot golden-ratio google-translate gptel
-         gptel-mcp gptel-quick haml-mode helm-ag helm-c-yasnippet helm-cider
-         helm-comint helm-company helm-css-scss helm-descbinds helm-git-grep
-         helm-ls-git helm-lsp helm-make helm-mode-manager helm-org helm-org-rifle
-         helm-projectile helm-purpose helm-pydoc helm-swoop helm-themes helm-xref
-         hide-comnt highlight-indentation highlight-numbers highlight-parentheses
-         hl-todo holy-mode htmlize hungry-delete hybrid-mode impatient-mode
-         indent-guide info+ inheritenv inspector journalctl-mode json-mode
-         json-navigator json-reformat json-snatcher link-hint live-py-mode llama
-         llm load-env-vars log4e lorem-ipsum lsp-mode lsp-origami lsp-sonarlint
+         flyspell-correct flyspell-correct-helm forge gh-md ghub git-link
+         git-messenger git-modes git-timemachine gitignore-templates gntp gnuplot
+         golden-ratio google-translate gptel gptel-mcp gptel-quick haml-mode
+         helm-ag helm-c-yasnippet helm-cider helm-comint helm-company
+         helm-css-scss helm-descbinds helm-git-grep helm-ls-git helm-lsp helm-make
+         helm-mode-manager helm-org helm-org-rifle helm-projectile helm-purpose
+         helm-pydoc helm-swoop helm-themes helm-xref hide-comnt
+         highlight-indentation highlight-numbers highlight-parentheses hl-todo
+         holy-mode htmlize hungry-delete hybrid-mode impatient-mode indent-guide
+         info+ inheritenv inspector journalctl-mode json-mode json-navigator
+         json-reformat json-snatcher link-hint live-py-mode llama llm
+         load-env-vars log4e lorem-ipsum lsp-mode lsp-origami lsp-sonarlint
          lsp-treemacs lsp-ui macrostep magit magit-section markdown-mode
          markdown-toc mcp monokai-theme multi-line multi-term multi-vterm mwim
          nameless nginx-mode obsidian open-junk-file org-category-capture
