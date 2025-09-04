@@ -21,9 +21,6 @@ This function should only modify configuration layer settings."
      (clojure :variables
               clojure-enable-fancify-symbols t
               clojure-enable-linters t)
-     ;; For bb: use a plain terminal REPL mode
-     ;; (shell :variables shell-default-shell 'eshell)
-     ;; You still install these packages below
      vimscript
      systemd
      react
