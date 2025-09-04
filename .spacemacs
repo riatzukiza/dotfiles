@@ -32,6 +32,7 @@ This function should only modify configuration layer settings."
      systemd
      react
      python
+     common-lisp
      (typescript :variables
                  typescript-linter 'eslint
                  typescript-fmt-on-save t
@@ -482,13 +483,9 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (require 'prettier-js)
-  (add-hook 'typescript-mode-hook 'prettier-js-mode)
-  (add-hook 'web-mode-hook 'prettier-js-mode)
-  (eval-after-load 'web-mode
-    '(add-hook 'web-mode-hook #'add-node-modules-path))
-  (eval-after-load 'typescript-mode
-    '(add-hook 'typescript-mode-hook #'add-node-modules-path))
+
+
+
 
 
   )
@@ -506,19 +503,6 @@ This function is called at the very end of Spacemacs initialization."
    ;; If you edit it by hand, you could mess it up, so be careful.
    ;; Your init file should contain only one such instance.
    ;; If there is more than one, they won't work right.
-   '(lsp-clients-typescript-disable-automatic-typing-acquisition t)
-   '(lsp-javascript-references-code-lens-enabled t)
-   '(lsp-javascript-suggest-complete-function-calls t)
-   '(lsp-javascript-update-imports-on-file-move-enabled "always")
-   '(lsp-typescript-disable-automatic-type-acquisition t)
-   '(lsp-typescript-implementations-code-lens-enabled t)
-   '(lsp-typescript-references-code-lens-enabled t)
-   '(lsp-typescript-tsserver-log
-     #("verbose" 0 7
-       (insert-in-front-hooks
-        (eshell--mark-as-output eshell--mark-yanked-as-output) rear-nonsticky
-        (field) front-sticky (field) field command-output)))
-   '(lsp-typescript-update-imports-on-file-move-enabled "always")
    '(package-selected-packages
      '(a ace-link add-node-modules-path aggressive-indent aio alert all-the-icons
          auctex auto-compile auto-highlight-symbol auto-yasnippet
