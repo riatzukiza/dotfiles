@@ -18,11 +18,6 @@ This function should only modify configuration layer settings."
    '(purescript
      sql
      nginx
-     llm
-     codex
-
-     semantic-search
-     err-core
      (clojure :variables
               clojure-enable-fancify-symbols t
               clojure-enable-linters t)
@@ -46,14 +41,11 @@ This function should only modify configuration layer settings."
                  )
      html
      toml
-                                        ;promethean
      yaml
-     html
      ;; company
      auto-completion
      (better-defaults :variables relative-line-numbers t)
      emacs-lisp
-     autoload-lab
      git
      helm
      lsp
@@ -74,7 +66,15 @@ This function should only modify configuration layer settings."
      (llm-client :variables llm-client-enable-ellama t
                  llm-client-enable-gptel t)
 
-     treemacs)
+     treemacs
+
+
+     llm
+     codex
+     promethean
+     semantic-search
+     err-core
+     )
 
 
    dotspacemacs-additional-packages '(yasnippet-snippets prettier-js lsp-sonarlint obsidian)
