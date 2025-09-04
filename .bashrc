@@ -174,7 +174,6 @@ esac
 # pnpm end
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-alias cfg="git --git-dir=$HOME/.cfg --work-tree=$HOME"
 # Load pyenv automatically by appending
 # the following to
 # ~/.bash_profile if it exists, otherwise ~/.profile (for login shells)
@@ -192,6 +191,7 @@ eval "$(pyenv init - bash)"
 eval "$(pyenv virtualenv-init -)"
 export LIBPYTHON=/home/err/.pyenv/versions/3.12.1/lib/libpython3.12.so
 
+alias cfg="git --git-dir=$HOME/.cfg --work-tree=$HOME"
 export CFG_BRANCH_NAME=device/$HOSTNAME
 
 # Backup dotfiles

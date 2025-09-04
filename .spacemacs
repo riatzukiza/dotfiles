@@ -19,6 +19,7 @@ This function should only modify configuration layer settings."
      sql
      nginx
      llm
+     codex
 
      semantic-search
      err-core
