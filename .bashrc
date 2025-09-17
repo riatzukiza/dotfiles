@@ -187,6 +187,8 @@ cfg add .bashrc .gitconfig .config/i3/config \
     .config/fontconfig/fonts.conf \
     .config/htop/htoprc \
     .config/picom/picom.conf \
+    run/ \
+    bin/ \
     .spacemacs \
     .profile \
     .bash_profile
@@ -208,3 +210,11 @@ if [ -n "$BASH_VERSION" ]; then
 fi
 
 PATH="$PATH:/home/err/bin"
+
+# pnpm
+export PNPM_HOME="/home/err/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
