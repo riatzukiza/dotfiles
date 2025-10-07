@@ -17,6 +17,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-configuration-layers
    '(purescript
      aider
+     openai
      sql
      nginx
      (clojure :variables
