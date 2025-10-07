@@ -383,7 +383,7 @@ This function is called at the very end of Spacemacs initialization."
           highlight-indentation highlight-numbers highlight-parentheses hl-todo
           holy-mode htmlize hungry-delete hybrid-mode impatient-mode indent-guide
           info+ inheritenv inspector journalctl-mode json-mode json-navigator
-          json-reformat json-snatcher link-hint live-py-mode llama llm llm-tools
+          json-reformat json-snatcher link-hint live-py-mode llama llm
           load-env-vars log4e lorem-ipsum lsp-eslint lsp-mode lsp-origami
           lsp-sonarlint lsp-treemacs lsp-ui macrostep magit magit-section
           markdown-mode markdown-toc mcp monokai-theme multi-line multi-term
@@ -394,18 +394,19 @@ This function is called at the very end of Spacemacs initialization."
           page-break-lines paradox parseclj parseedn password-generator pcre2el
           persistent-scratch pip-requirements pipenv pippel plz plz-event-source
           plz-media-type poetry polymode popwin pos-tip psc-ide psci pug-mode
-          purescript-mode py-isort pydoc pyenv-mode pylookup pytest pythonic pyvenv
-          queue quickrun rainbow-delimiters request restart-emacs rjsx-mode
-          sass-mode scss-mode sem sesman shell-maker shell-pop slim-mode smeargle
-          space-doc spaceline spacemacs-purpose-popwin spacemacs-whitespace-cleanup
-          sphinx-doc sql-indent sqlup-mode string-edit-at-point string-inflection
-          symbol-overlay symon systemd tagedit term-cursor terminal-here texfrag
-          toc-org toml-mode transient treemacs-evil treemacs-icons-dired
-          treemacs-magit treemacs-persp treemacs-projectile treepy treesit-auto
-          undo-fu undo-fu-session unfill unkillable-scratch uuidgen vi-tilde-fringe
-          vimrc-mode volatile-highlights vterm vundo web-beautify
-          web-completion-data web-mode wgrep winum with-editor writeroom-mode
-          ws-butler yaml yaml-mode yasnippet yasnippet-snippets))
+          purescript-mode py-isort pydoc pyenv-mode pylookup pytest python-pytest
+          pythonic pyvenv queue quickrun rainbow-delimiters request restart-emacs
+          rjsx-mode sass-mode scss-mode sem sesman shell-maker shell-pop slim-mode
+          smeargle space-doc spaceline spacemacs-purpose-popwin
+          spacemacs-whitespace-cleanup sphinx-doc sql-indent sqlup-mode
+          string-edit-at-point string-inflection symbol-overlay symon systemd
+          tagedit term-cursor terminal-here texfrag toc-org toml-mode transient
+          treemacs-evil treemacs-icons-dired treemacs-magit treemacs-persp
+          treemacs-projectile treepy treesit-auto undo-fu undo-fu-session unfill
+          unkillable-scratch uuidgen vi-tilde-fringe vimrc-mode volatile-highlights
+          vterm vundo web-beautify web-completion-data web-mode wgrep winum
+          with-editor writeroom-mode ws-butler yaml yaml-mode yasnippet
+          yasnippet-snippets))
     '(safe-local-variable-values
        '((eval promethean-lsp-append-gitignore-to-ignored-dirs)
           (typescript-backend . tide) (typescript-backend . lsp)
