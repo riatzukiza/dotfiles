@@ -196,7 +196,7 @@ It should only modify the values of Spacemacs settings."
 
    dotspacemacs-max-rollback-slots 5
 
-   ;; dotspacemacs-enable-paste-transient-state t
+   dotspacemacs-enable-paste-transient-state nill
 
    dotspacemacs-which-key-delay 0.4
 
@@ -254,7 +254,7 @@ It should only modify the values of Spacemacs settings."
 
    dotspacemacs-persistent-server nil
 
-   dotspacemacs-search-tools '("rg" "ag" "pt" "ack" "grep")
+   dotspacemacs-search-tools '("rg" "grep")
 
    dotspacemacs-undo-system 'undo-fu
 
@@ -312,12 +312,11 @@ before packages are loaded."
   ;; Map TS tree-sitter modes to VSCode language IDs ESLint expects
 
 
-
-  (use-package lsp-ui
-    :after lsp-mode
-    :init (setq lsp-ui-sideline-enable t
-                lsp-ui-sideline-show-diagnostics t
-                lsp-ui-doc-enable t))
+  ;; (use-package lsp-ui
+  ;;   :after lsp-mode
+  ;;   :init (setq lsp-ui-sideline-enable t
+  ;;               lsp-ui-sideline-show-diagnostics t
+  ;;               lsp-ui-doc-enable t))
   ;; Show the abbreviated path (or buffer name) of every window in the frame.
   ;; Titles look like: ~/proj/a/foo.ts │ ~/proj/b/bar.ts │ *scratch*
   (setq frame-title-format
