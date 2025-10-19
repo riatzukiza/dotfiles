@@ -96,6 +96,8 @@ completions=(
   git
   composer
   ssh
+  docker
+  defaults
 )
 
 # Which aliases would you like to load? (aliases can be found in ~/.oh-my-bash/aliases/*)
@@ -246,3 +248,4 @@ export PATH="/home/err/devel/promethean/.volta/tools/image/node/20.19.4/bin:$PAT
 
 # opencode
 export PATH=/home/err/.opencode/bin:$PATH
+source ~/.pnpm-completion.bash
