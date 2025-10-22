@@ -39,6 +39,7 @@ This function should only modify configuration layer settings."
                  javascript-fmt-tool 'prettier
                  node-add-modules-path t
                  )
+     ai-agent
      html
      toml
      yaml
