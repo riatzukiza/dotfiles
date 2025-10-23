@@ -39,7 +39,7 @@ This function should only modify configuration layer settings."
          javascript-fmt-tool 'prettier
          node-add-modules-path t
          )
-       ai-agent
+       opencode-agent-shell
        html
        toml
        yaml
@@ -222,11 +222,11 @@ It should only modify the values of Spacemacs settings."
 
     dotspacemacs-undecorated-at-startup nil
 
-    dotspacemacs-active-transparency 75
+    dotspacemacs-active-transparency 80
 
-    dotspacemacs-inactive-transparency 50
+    dotspacemacs-inactive-transparency 65
 
-    dotspacemacs-background-transparency 90
+    dotspacemacs-background-transparency 100
 
     dotspacemacs-show-transient-state-title t
 
