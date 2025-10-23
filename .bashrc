@@ -248,6 +248,6 @@ export PATH="/home/err/devel/promethean/.volta/tools/image/node/20.19.4/bin:$PAT
 
 # opencode
 export PATH=/home/err/.opencode/bin:$PATH
-export PATH=/home/err/devel/stt/opencode/packages/opencode/dist/opencode-linux-x64/bin:$PATH
+# export PATH=/home/err/devel/stt/opencode/packages/opencode/dist/opencode-linux-x64/bin:$PATH
 source ~/.pnpm-completion.bash
 source ~/.bash_profile
