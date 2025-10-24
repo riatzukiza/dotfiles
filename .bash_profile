@@ -52,21 +52,22 @@ if ! cfg remote | grep origin; then
 fi
 
 cfg pull origin $CFG_BRANCH_NAME
-cfg add .bashrc .gitconfig .config/i3/config \
-    .config/i3/conf.d/ \
-    .config/espanso/ \
-    .config/alacritty/alacritty.toml \
-    .config/nvim/init.vim \
-    .config/fontconfig/fonts.conf \
-    .config/htop/htoprc \
-    .config/picom/picom.conf \
-    .config/opencode/plugin/ \
-    .config/opencode/agent/ \
-    .config/opencode/command/ \
-    .config/opencode/opencode.json \
-    .spacemacs \
-    .profile \
-    .bash_profile
+cfg add ~/.bashrc ~/.gitconfig ~/.config/i3/config \
+    ~/.config/i3/conf.d/ \
+    ~/.config/espanso/ \
+    ~/.config/alacritty/alacritty.toml \
+    ~/.config/nvim/init.vim \
+    ~/.config/fontconfig/fonts.conf \
+    ~/.config/htop/htoprc \
+    ~/.config/picom/picom.conf \
+    ~/.config/opencode/plugin/ \
+    ~/.config/opencode/agent/ \
+    ~/.config/opencode/command/ \
+    ~/.config/opencode/opencode.json \
+    ~/.config/opencode/AGENTS.md \
+    ~/.spacemacs \
+    ~/.profile \
+    ~/.bash_profile
 
 
 cfg commit -m "backup"
