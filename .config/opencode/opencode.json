@@ -173,14 +173,8 @@
       ]
     },
     "serena": {
-      "type": "local",
-      "command": [
-        "uvx",
-        "--from",
-        "git+https://github.com/oraios/serena",
-        "serena",
-        "start-mcp-server"
-      ],
+      "type": "remote",
+      "url":"http://localhost:8901/mcp",
       "enabled": true
     },
     "context7": {
