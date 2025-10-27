@@ -15,75 +15,76 @@ This function should only modify configuration layer settings."
    dotspacemacs-configuration-layer-path '("~/devel/riatzukiza/promethean/dev/hacks/.emacs/layers/"
                                            )
 
-  dotspacemacs-configuration-layers
-  '(purescript
-    aider
-    direnv
-    openai
-    sql
-    nginx
-    (clojure :variables
-             clojure-enable-fancify-symbols t
-             clojure-enable-linters t)
-    vimscript
-    systemd
-    react
-    python
-    common-lisp
-    (typescript :variables
-                typescript-linter 'eslint
-                typescript-fmt-on-save t
-                typescript-fmt-tool 'prettier
-                node-add-modules-path t
-                )
-    (javascript :variables
-                javascript-fmt-tool 'prettier
-                node-add-modules-path t
-                )
-    opencode-agent-shell
-    html
-    toml
-    yaml
-    ;; company
-    auto-completion
-    (better-defaults :variables relative-line-numbers t)
-    emacs-lisp
-    git
-    helm
-    lsp
-    markdown
-    multiple-cursors
-    ;; eww
-    org
-    github-copilot
+   dotspacemacs-configuration-layers
+   '(purescript
+     aider
+     direnv
+     openai
+     sql
+     nginx
+     (clojure :variables
+              clojure-enable-fancify-symbols t
+              clojure-enable-linters t)
+     vimscript
+     systemd
+     react
+     python
+     common-lisp
+     (typescript :variables
+                 typescript-linter 'eslint
+                 typescript-fmt-on-save t
+                 typescript-fmt-tool 'prettier
+                 node-add-modules-path t
+                 )
+     (javascript :variables
+                 javascript-fmt-tool 'prettier
+                 node-add-modules-path t
+                 )
+     opencode-agent-shell
+     html
+     toml
+     yaml
+     ;; company
+     auto-completion
+     (better-defaults :variables relative-line-numbers t)
+     emacs-lisp
+     git
+     helm
+     lsp
+     markdown
+     multiple-cursors
+     ;; eww
+     org
+     github-copilot
 
-    prom-unique
-    (shell :variables
-           shell-default-height 30
-           shell-default-position 'bottom
-           shell-default-shell 'vterm)
-    spell-checking
-    syntax-checking
-    version-control
-    (llm-client :variables llm-client-enable-ellama t
-                llm-client-enable-gptel t)
+     prom-unique
+     (shell :variables
+            shell-default-height 30
+            shell-default-position 'bottom
+            shell-default-shell 'vterm)
+     spell-checking
+     syntax-checking
+     version-control
+     (llm-client :variables llm-client-enable-ellama t
+                 llm-client-enable-gptel t)
 
-    treemacs
+     treemacs
 
 
-    llm
-    codex
-    semantic-search
+     llm
+     codex
 
-    promethean
-    err-core err-ts err-commonlisp
-    )
+     promethean
+     err-core
+     err-ts
+     err-commonlisp
+     )
 
-  dotspacemacs-additional-packages '(yasnippet-snippets prettier-js lsp-sonarlint obsidian)
-  dotspacemacs-frozen-packages '()
-  dotspacemacs-excluded-packages '()
+   dotspacemacs-additional-packages '(yasnippet-snippets prettier-js lsp-sonarlint obsidian)
+   dotspacemacs-frozen-packages '()
+   dotspacemacs-excluded-packages '()
 
-  dotspacemacs-install-packages 'used-only))
+   dotspacemacs-install-packages 'used-only))
 
 (defun dotspacemacs/init ()
   "Initialization:
@@ -354,12 +355,12 @@ before packages are loaded."
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(package-selected-packages
      '(a ace-link add-node-modules-path agent-shell aggressive-indent aio alert
          all-the-icons auctex auto-compile auto-highlight-symbol auto-yasnippet
          avy-jump-helm-line browse-at-remote centered-cursor-mode cider
@@ -381,54 +382,52 @@ This function is called at the very end of Spacemacs initialization."
          git-messenger git-modes git-timemachine gitignore-templates gntp gnuplot
          golden-ratio google-translate gptel gptel-mcp gptel-quick haml-mode
          helm-ag helm-c-yasnippet helm-cider helm-comint helm-company
-     helm-css-scss helm-descbinds helm-git-grep helm-ls-git helm-lsp helm-make
-     helm-mode-manager helm-org helm-org-rifle helm-projectile helm-purpose
-     helm-pydoc helm-swoop helm-themes helm-xref hide-comnt
-     highlight-indentation highlight-numbers highlight-parentheses hl-todo
-     holy-mode htmlize hungry-delete hybrid-mode impatient-mode indent-guide
-     info+ inheritenv inspector journalctl-mode json-mode json-navigator
-     json-reformat json-snatcher link-hint live-py-mode llama llm
-     load-env-vars log4e lorem-ipsum lsp-eslint lsp-mode lsp-origami
-     lsp-sonarlint lsp-treemacs lsp-ui macrostep magit magit-section
-     markdown-mode markdown-toc mcp monokai-theme multi-line multi-term
-     multi-vterm mwim nameless nginx-mode obsidian open-junk-file
-     org-category-capture org-cliplink org-contrib org-download org-mime
-     org-pomodoro org-present org-project-capture org-projectile org-rich-yank
-     org-superstar orgit orgit-forge origami overseer package-lint
-     page-break-lines paradox parseclj parseedn password-generator pcre2el
-     persistent-scratch pip-requirements pipenv pippel plz plz-event-source
-     plz-media-type poetry polymode popwin pos-tip psc-ide psci pug-mode
-     purescript-mode py-isort pydoc pyenv-mode pylookup pytest python-pytest
-     pythonic pyvenv queue quickrun rainbow-delimiters request restart-emacs
-     rjsx-mode sass-mode scss-mode sem sesman shell-maker shell-pop slim-mode
-     smeargle space-doc spaceline spacemacs-purpose-popwin
-     spacemacs-whitespace-cleanup sphinx-doc sql-indent sqlup-mode
-     string-edit-at-point string-inflection symbol-overlay symon systemd
-     tagedit term-cursor terminal-here texfrag toc-org toml-mode transient
-     treemacs-evil treemacs-icons-dired treemacs-magit treemacs-persp
-     treemacs-projectile treepy treesit-auto undo-fu undo-fu-session unfill
-     unkillable-scratch uuidgen vi-tilde-fringe vimrc-mode volatile-highlights
-     vterm vundo web-beautify web-completion-data web-mode wgrep winum
-     with-editor writeroom-mode ws-butler yaml yaml-mode yasnippet
-     yasnippet-snippets))
-     '(safe-local-variable-values
-             '((prom/unique-mode-targets (markdown-mode :dir "docs/inbox" :ext ".md")
-                     (org-mode :dir "docs/inbox" :ext ".org")
-                     (text-mode :dir "docs/text" :ext ".txt")
-                     (js-mode :dir "pseudo/inbox" :ext ".js")
-                     (typescript-ts-mode :dir "pseudo/inbox" :ext
-                      ".ts"))
-                 (prom/unique-default-dir . "docs/unique")
-                 (prom/unique-doc-format . "%Y.%m.%d.%H.%M.%S")
-                 (eval promethean-lsp-append-gitignore-to-ignored-dirs)
-                 (typescript-backend . tide) (typescript-backend . lsp)
-                 (javascript-backend . tide) (javascript-backend . tern)
-                 (javascript-backend . lsp))))
-(custom-set-faces
-                                            ;; custom-set-faces was added by Custom.
-                                            ;; If you edit it by hand, you could mess it up, so be careful.
-                                            ;; Your init file should contain only one such instance.
-                                            ;; If there is more than one, they won't work right.
-                                            ))
-                                           
-
+         helm-css-scss helm-descbinds helm-git-grep helm-ls-git helm-lsp helm-make
+         helm-mode-manager helm-org helm-org-rifle helm-projectile helm-purpose
+         helm-pydoc helm-swoop helm-themes helm-xref hide-comnt
+         highlight-indentation highlight-numbers highlight-parentheses hl-todo
+         holy-mode htmlize hungry-delete hybrid-mode impatient-mode indent-guide
+         info+ inheritenv inspector journalctl-mode json-mode json-navigator
+         json-reformat json-snatcher link-hint live-py-mode llama llm
+         load-env-vars log4e lorem-ipsum lsp-eslint lsp-mode lsp-origami
+         lsp-sonarlint lsp-treemacs lsp-ui macrostep magit magit-section
+         markdown-mode markdown-toc mcp monokai-theme multi-line multi-term
+         multi-vterm mwim nameless nginx-mode obsidian open-junk-file
+         org-category-capture org-cliplink org-contrib org-download org-mime
+         org-pomodoro org-present org-project-capture org-projectile org-rich-yank
+         org-superstar orgit orgit-forge origami overseer package-lint
+         page-break-lines paradox parseclj parseedn password-generator pcre2el
+         persistent-scratch pip-requirements pipenv pippel plz plz-event-source
+         plz-media-type poetry polymode popwin pos-tip psc-ide psci pug-mode
+         purescript-mode py-isort pydoc pyenv-mode pylookup pytest python-pytest
+         pythonic pyvenv queue quickrun rainbow-delimiters request restart-emacs
+         rjsx-mode sass-mode scss-mode sem sesman shell-maker shell-pop slim-mode
+         smeargle space-doc spaceline spacemacs-purpose-popwin
+         spacemacs-whitespace-cleanup sphinx-doc sql-indent sqlup-mode
+         string-edit-at-point string-inflection symbol-overlay symon systemd
+         tagedit term-cursor terminal-here texfrag toc-org toml-mode transient
+         treemacs-evil treemacs-icons-dired treemacs-magit treemacs-persp
+         treemacs-projectile treepy treesit-auto undo-fu undo-fu-session unfill
+         unkillable-scratch uuidgen vi-tilde-fringe vimrc-mode volatile-highlights
+         vterm vundo web-beautify web-completion-data web-mode wgrep winum
+         with-editor writeroom-mode ws-butler yaml yaml-mode yasnippet
+         yasnippet-snippets))
+   '(safe-local-variable-values
+     '((prom/unique-mode-targets (markdown-mode :dir "docs/inbox" :ext ".md")
+                                 (org-mode :dir "docs/inbox" :ext ".org")
+                                 (text-mode :dir "docs/text" :ext ".txt")
+                                 (js-mode :dir "pseudo/inbox" :ext ".js")
+                                 (typescript-ts-mode :dir "pseudo/inbox" :ext
+                                                     ".ts"))
+       (prom/unique-default-dir . "docs/unique")
+       (prom/unique-doc-format . "%Y.%m.%d.%H.%M.%S")
+       (eval promethean-lsp-append-gitignore-to-ignored-dirs)
+       (typescript-backend . tide) (typescript-backend . lsp)
+       (javascript-backend . tide) (javascript-backend . tern)
+       (javascript-backend . lsp))))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   ))

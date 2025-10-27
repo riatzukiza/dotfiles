@@ -174,7 +174,7 @@
     },
     "serena": {
       "type": "remote",
-      "url":"http://localhost:8901/mcp",
+      "url":"http://localhost:9121/mcp",
       "enabled": true
     },
     "context7": {
@@ -211,22 +211,24 @@
   "permission": {
     "bash": {
       "ls*": "allow",
-      "*pnpm build*": "ask",
-      "*pnpm test*": "ask",
+      "pnpm build*": "ask",
+      "pnpm test*": "ask",
       "node *": "ask",
       "uvx *": "ask",
       "npx *": "ask",
       "kill *": "deny",
       "pkill *": "deny",
       "pm2 logs": "deny",
+      "pm2 logs * --nostream": "allow",
+      "pm2 stop *": "deny",
+      "pm2 delete *": "deny",
+      "pm2  *": "deny",
       "rm *": "ask",
       "bash *": "ask",
       "unlink *": "ask",
       "rmdir *": "ask",
       "chomod *": "ask",
       "chown *": "ask",
-      "mv *": "ask",
-      "cp *": "ask",
       "git *": "ask",
       "git status*": "allow",
       "git log*": "allow",
@@ -234,6 +236,7 @@
       "git commit*": "allow",
       "pnpm kanban*": "allow",
       "mkdir *{*}": "ask",
+      "cd*&&*": "deny",
       "*": "allow" // <<< ADD THIS RIGHT HERE
     }
   },
