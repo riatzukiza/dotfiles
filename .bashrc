@@ -156,9 +156,9 @@ export EDITOR='nvim'
 # Example aliases
 # alias bashconfig="mate ~/.bashrc"
 # alias ohmybash="mate ~/.oh-my-bash"
-eval "$(direnv hook bash)"
-
+export CFG_BRANCH_NAME=device/$HOSTNAME
 alias cfg="git --git-dir=$HOME/.cfg --work-tree=$HOME"
+
 export CFG_BRANCH_NAME=device/$HOSTNAME
 
 # Backup dotfiles
@@ -235,6 +235,13 @@ PATH="$PATH:/home/err/bin"
 # Added by setup-native-node-build.sh
 export PATH="/home/err/devel/promethean/.volta/tools/image/node/20.19.4/bin:$PATH"
 . "$HOME/.cargo/env"
+# pnpm
+export PNPM_HOME="/home/err/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
 
 # opencode
 # export PATH=/home/err/.opencode/bin:$PATH

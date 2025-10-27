@@ -10,6 +10,7 @@ exec --no-startup-id xset s 6000 6000 dpms 12000 12000 12000
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock -n -c 000000
 exec --no-startup-id bash -c "source ~/.bash_profile"
 
+
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
