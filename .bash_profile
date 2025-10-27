@@ -2,6 +2,7 @@
 . "$HOME/.cargo/env"
 
 # bun
+emacs --daemon
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
@@ -72,26 +73,3 @@ fi
 
 # cfg commit -m "backup"
 # cfg push -u origin $CFG_BRANCH_NAME
-
-vterm_printf(){
-    printf "\e]%s\e\\" "$1"
-}
-vterm_prompt_end(){
-    vterm_printf "51;A$(whoami)@$(hostname):$(pwd)"
-}
-vterm_prompt_precmd() { vterm_printf "A${USER}@${HOSTNAME}:$(pwd)"; }
-PS1=$PS1'\[$(vterm_prompt_end)\]'
-if [ -n "$BASH_VERSION" ]; then
-    PROMPT_COMMAND="vterm_prompt_precmd${PROMPT_COMMAND:+;$PROMPT_COMMAND}"
-fi
-
-PATH="$PATH:/home/err/bin"
-
-# Added by setup-native-node-build.sh
-export PATH="/home/err/devel/promethean/.volta/tools/image/node/20.19.4/bin:$PATH"
-. "$HOME/.cargo/env"
-
-# opencode
-# export PATH=/home/err/.opencode/bin:$PATH
-# export PATH=/home/err/devel/stt/opencode/packages/opencode/dist/opencode-linux-x64/bin:$PATH
-source ~/.pnpm-completion.bash

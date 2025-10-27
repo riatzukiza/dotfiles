@@ -140,7 +140,7 @@ source "$OSH"/oh-my-bash.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-export EDITOR='nvim'
+export EDITOR="emacsclient -c"
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -249,3 +249,28 @@ esac
 source ~/.pnpm-completion.bash
 export JAVA_OPTS="-Xmx6g -Xms3g"
 export NODE_OPTIONS="--max-old-space-size=10240"
+
+PS1=$PS1'\[$(vterm_prompt_end)\]'
+if [ -n "$BASH_VERSION" ]; then
+    PROMPT_COMMAND="vterm_prompt_precmd${PROMPT_COMMAND:+;$PROMPT_COMMAND}"
+fi
+
+PATH="$PATH:/home/err/bin"
+
+# Added by setup-native-node-build.sh
+export PATH="/home/err/devel/promethean/.volta/tools/image/node/20.19.4/bin:$PATH"
+. "$HOME/.cargo/env"
+
+# opencode
+# export PATH=/home/err/.opencode/bin:$PATH
+# export PATH=/home/err/devel/stt/opencode/packages/opencode/dist/opencode-linux-x64/bin:$PATH
+source ~/.pnpm-completion.bash
+
+
+vterm_printf(){
+    printf "\e]%s\e\\" "$1"
+}
+vterm_prompt_end(){
+    vterm_printf "51;A$(whoami)@$(hostname):$(pwd)"
+}
+vterm_prompt_precmd() { vterm_printf "A${USER}@${HOSTNAME}:$(pwd)"; }
