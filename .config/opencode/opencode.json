@@ -1,0 +1,255 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": [
+    "opencode-openai-codex-auth"
+  ],
+  "agent":{
+    "plan":{
+      "model":"zai-coding-plan/glm-"
+    },
+    "reistricted-build":{
+      "disable":true,
+      "permission":{
+        "edit":"ask"
+      }
+    }
+  },
+  "provider": {
+    "openai": {
+      "options": {
+        "reasoningEffort": "medium",
+        "reasoningSummary": "auto",
+        "textVerbosity": "medium",
+        "include": [
+          "reasoning.encrypted_content"
+        ],
+        "store": false
+      },
+      "models": {
+        "gpt-5-codex-low": {
+          "name": "GPT 5 Codex Low (OAuth)",
+          "options": {
+            "reasoningEffort": "low",
+            "reasoningSummary": "auto",
+            "textVerbosity": "medium",
+            "include": [
+              "reasoning.encrypted_content"
+            ],
+            "store": false
+          }
+        },
+        "gpt-5-codex-medium": {
+          "name": "GPT 5 Codex Medium (OAuth)",
+          "options": {
+            "reasoningEffort": "medium",
+            "reasoningSummary": "auto",
+            "textVerbosity": "medium",
+            "include": [
+              "reasoning.encrypted_content"
+            ],
+            "store": false
+          }
+        },
+        "gpt-5-codex-high": {
+          "name": "GPT 5 Codex High (OAuth)",
+          "options": {
+            "reasoningEffort": "high",
+            "reasoningSummary": "detailed",
+            "textVerbosity": "medium",
+            "include": [
+              "reasoning.encrypted_content"
+            ],
+            "store": false
+          }
+        },
+        "gpt-5-minimal": {
+          "name": "GPT 5 Minimal (OAuth)",
+          "options": {
+            "reasoningEffort": "minimal",
+            "reasoningSummary": "auto",
+            "textVerbosity": "low",
+            "include": [
+              "reasoning.encrypted_content"
+            ],
+            "store": false
+          }
+        },
+        "gpt-5-low": {
+          "name": "GPT 5 Low (OAuth)",
+          "options": {
+            "reasoningEffort": "low",
+            "reasoningSummary": "auto",
+            "textVerbosity": "low",
+            "include": [
+              "reasoning.encrypted_content"
+            ],
+            "store": false
+          }
+        },
+        "gpt-5-medium": {
+          "name": "GPT 5 Medium (OAuth)",
+          "options": {
+            "reasoningEffort": "medium",
+            "reasoningSummary": "auto",
+            "textVerbosity": "medium",
+            "include": [
+              "reasoning.encrypted_content"
+            ],
+            "store": false
+          }
+        },
+        "gpt-5-high": {
+          "name": "GPT 5 High (OAuth)",
+          "options": {
+            "reasoningEffort": "high",
+            "reasoningSummary": "detailed",
+            "textVerbosity": "high",
+            "include": [
+              "reasoning.encrypted_content"
+            ],
+            "store": false
+          }
+        },
+        "gpt-5-mini": {
+          "name": "GPT 5 Mini (OAuth)",
+          "options": {
+            "reasoningEffort": "low",
+            "reasoningSummary": "auto",
+            "textVerbosity": "low",
+            "include": [
+              "reasoning.encrypted_content"
+            ],
+            "store": false
+          }
+        },
+        "gpt-5-nano": {
+          "name": "GPT 5 Nano (OAuth)",
+          "options": {
+            "reasoningEffort": "minimal",
+            "reasoningSummary": "auto",
+            "textVerbosity": "low",
+            "include": [
+              "reasoning.encrypted_content"
+            ],
+            "store": false
+          }
+        }
+      }
+    }
+  },
+  "mcp":{
+    "web-search-prime": {
+      "type": "remote",
+      "url": "https://api.z.ai/api/mcp/web_search_prime/mcp",
+      "headers": {
+        "Authorization": "Bearer {env:Z_AI_API_KEY}"
+      },
+      "enabled": true
+    },
+    "zai-mcp-server": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@z_ai/mcp-server"
+      ],
+      "environment": {
+        "Z_AI_API_KEY": "{env:Z_AI_API_KEY}",
+        "Z_AI_MODE": "ZAI"
+      },
+      "enabled": true
+    },
+    "playwright": {
+      "type": "remote",
+      "url": "http://localhost:8931",
+      "enabled": true
+    },
+    "chrome-devtools": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "chrome-devtools-mcp@latest"
+      ]
+    },
+    "serena": {
+      "type": "remote",
+      "url":"http://localhost:9121/mcp",
+      "enabled": true
+    },
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
+      },
+      "enabled": true
+    },
+    "gh_grep": {
+      "type": "remote",
+      "url": "https://mcp.grep.app",
+      "enabled": true
+    }
+  },
+  "lsp":{
+
+    "eslint": {
+      "enabled": true,
+      "command": [
+        "npx","eslint-lsp","-y",
+        "--stdio"
+      ],
+      "extensions": [
+        ".ts",
+        ".tsx",
+        ".js",
+        ".jsx",
+        ".vue"
+      ]
+    }
+  },
+  "permission": {
+    "bash": {
+      "ls*": "allow",
+      "pnpm build*": "ask",
+      "pnpm test*": "ask",
+      "node *": "ask",
+      "uvx *": "ask",
+      "npx *": "ask",
+      "kill *": "deny",
+      "pkill *": "deny",
+      "pm2 logs": "deny",
+      "pm2 logs * --nostream": "allow",
+      "pm2 stop *": "deny",
+      "pm2 delete *": "deny",
+      "pm2  *": "deny",
+      "rm *": "ask",
+      "bash *": "ask",
+      "unlink *": "ask",
+      "rmdir *": "ask",
+      "chomod *": "ask",
+      "chown *": "ask",
+      "git *": "ask",
+      "git status*": "allow",
+      "git log*": "allow",
+      "git show*": "allow",
+      "git commit*": "allow",
+      "pnpm kanban*": "allow",
+      "mkdir *{*}": "ask",
+      "cd*&&*": "deny",
+      "*": "allow" // <<< ADD THIS RIGHT HERE
+    }
+  },
+  "tools": {
+    "clj*": false,
+    "playwright*":false,
+    "DirectProcess.*":false,
+    "Events.*":false,
+    "Messaging.*":false,
+    "Messages.*":false,
+    "ollama.*":false,
+    "Cache.*":false,
+    "Sessions.*": false,
+    "chrome*":false
+  }
+}

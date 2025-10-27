@@ -6,10 +6,13 @@ esac
 
 # Path to your oh-my-bash installation.
 export OSH='/home/err/.oh-my-bash'
+# Optional: if your theme cached PS1 via PROMPT_COMMAND, re-apply on each prompt
+# PROMPT_COMMAND=':'  # uncomment only if your theme keeps undoing the change
+
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-bash is loaded.
-OSH_THEME="font"
+OSH_THEME="minimal-dark"
 
 # If you set OSH_THEME to "random", you can ignore themes you don't like.
 # OMB_THEME_RANDOM_IGNORED=("powerbash10k" "wanelo")
@@ -93,6 +96,8 @@ completions=(
   git
   composer
   ssh
+  docker
+  defaults
 )
 
 # Which aliases would you like to load? (aliases can be found in ~/.oh-my-bash/aliases/*)
@@ -135,11 +140,7 @@ source "$OSH"/oh-my-bash.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+export EDITOR='nvim'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -157,42 +158,87 @@ source "$OSH"/oh-my-bash.sh
 # alias ohmybash="mate ~/.oh-my-bash"
 eval "$(direnv hook bash)"
 
-# pnpm
-export PNPM_HOME="/home/err/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
-
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 alias cfg="git --git-dir=$HOME/.cfg --work-tree=$HOME"
-cfg add .bashrc .gitconfig .config/i3/config \
-    .config/i3/conf.d/ \
-    .config/espanso/ \
-    .config/alacritty/alacritty.toml \
-    .config/nvim/init.vim \
-    .config/fontconfig/fonts.conf \
-    .config/htop/htoprc \
-    .config/picom/picom.conf \
-    .spacemacs \
-    .profile 
+export CFG_BRANCH_NAME=device/$HOSTNAME
+
+# Backup dotfiles
+
+# if the cfg repo is not initialized yet
+if [ ! -d $HOME/.cfg ]; then
+    git clone --bare
+fi
+
+# --- Hide hostname in Oh-My-Bash prompt (put this after oh-my-bash.sh) ---
+# Remove "user@host" → keep just "user" (handles \u@\h and lone \h/\H)
+PS1="${PS1//@\\h/}"    # drops the "@\h" part if present
+PS1="${PS1//\\h/}"     # drops any remaining "\h"
+PS1="${PS1//\\H/}"     # drops any "\H" (FQDN) just in case
+
+# # pnpm
+# source ~/.bash_profile
+export JAVA_OPTS="-Xmx2g -Xms1g"
+export JVM_OPTS="-Xmx2g -Xms1g"
+export LEIN_JVM_OPTS="-Xmx2g -Xms1g"
+export SHADOW_CLJS_JVM_OPTS="-Xmx2g -Xms1g"
+export NODE_OPTIONS="--max-old-space-size=4096"
+export SHADOW_CLJS_JAVA_OPTS="-Xmx2g -Xms1g"
+export NODE_OPTIONS="--max-old-space-size=8192"
+export JAVA_OPTS="-Xmx4g -Xms2g"
+
+# If not alredy on the correct branch
+if [ "$(cfg rev-parse --abbrev-ref HEAD)" != "$CFG_BRANCH_NAME" ]; then
+    cfg checkout -b $CFG_BRANCH_NAME
+fi
+
+
+## If the remote is not set yet
+if ! cfg remote | grep origin; then
+    cfg remote add origin git@github.com:riatzukiza/dotfiles.git
+fi
+
+cfg pull origin $CFG_BRANCH_NAME
+cfg add ~/.bashrc ~/.gitconfig ~/.config/i3/config \
+    ~/.config/i3/conf.d/ \
+    ~/.config/espanso/ \
+    ~/.config/alacritty/alacritty.toml \
+    ~/.config/nvim/init.vim \
+    ~/.config/fontconfig/fonts.conf \
+    ~/.config/htop/htoprc \
+    ~/.config/picom/picom.conf \
+    ~/.config/opencode/plugin/ \
+    ~/.config/opencode/agent/ \
+    ~/.config/opencode/command/ \
+    ~/.config/opencode/opencode.json \
+    ~/.config/opencode/AGENTS.md \
+    ~/.spacemacs \
+    ~/.profile \
+    ~/.bash_profile
+
 
 cfg commit -m "backup"
-cfg remote add origin git@github.com:riatzukiza/dotfiles.git
-cfg push -u origin main
-# Load pyenv automatically by appending
-# the following to 
-# ~/.bash_profile if it exists, otherwise ~/.profile (for login shells)
-# and ~/.bashrc (for interactive shells) :
+cfg push -u origin $CFG_BRANCH_NAME
 
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init - bash)"
+vterm_printf(){
+    printf "\e]%s\e\\" "$1"
+}
+vterm_prompt_end(){
+    vterm_printf "51;A$(whoami)@$(hostname):$(pwd)"
+}
+vterm_prompt_precmd() { vterm_printf "A${USER}@${HOSTNAME}:$(pwd)"; }
+PS1=$PS1'\[$(vterm_prompt_end)\]'
+if [ -n "$BASH_VERSION" ]; then
+    PROMPT_COMMAND="vterm_prompt_precmd${PROMPT_COMMAND:+;$PROMPT_COMMAND}"
+fi
 
-# Restart your shell for the changes to take effect.
+PATH="$PATH:/home/err/bin"
 
-# Load pyenv-virtualenv automatically by adding
-# the following to ~/.bashrc:
+# Added by setup-native-node-build.sh
+export PATH="/home/err/devel/promethean/.volta/tools/image/node/20.19.4/bin:$PATH"
+. "$HOME/.cargo/env"
 
-eval "$(pyenv virtualenv-init -)"
+# opencode
+# export PATH=/home/err/.opencode/bin:$PATH
+# export PATH=/home/err/devel/stt/opencode/packages/opencode/dist/opencode-linux-x64/bin:$PATH
+source ~/.pnpm-completion.bash
+export JAVA_OPTS="-Xmx6g -Xms3g"
+export NODE_OPTIONS="--max-old-space-size=10240"
