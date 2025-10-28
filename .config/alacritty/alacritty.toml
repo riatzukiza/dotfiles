@@ -5,7 +5,7 @@ shape = "Beam"
 
 [font]
 normal = { family = "Source Code Pro" }
-size = 5  # <— This is your new DPI knob
+size = 6  # <— This is your new DPI knob
 offset = { x = 2, y = 1 }  # y = 1 or 2 adds breathing room
 builtin_box_drawing = true  # should be true
 
