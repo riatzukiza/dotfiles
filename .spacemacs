@@ -12,7 +12,7 @@ This function should only modify configuration layer settings."
 
    dotspacemacs-ask-for-lazy-installation t
 
-   dotspacemacs-configuration-layer-path '("~/devel/riatzukiza/promethean/dev/hacks/.emacs/layers/"
+   dotspacemacs-configuration-layer-path '("~/devel/promethean/.emacs/layers/"
                                            )
 
    dotspacemacs-configuration-layers
