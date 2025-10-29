@@ -109,3 +109,21 @@ Periodically check:
 - `thinnk_about_whether_you_are_done` (have you completed all your todos? )
 
 
+## 🧭 Operational Notes
+
+**The Essentials (actually important):**
+
+- Always run bash commands from **package root** - saves so much confusion
+- File changes auto-commit with LLM-generated messages - one less thing to think about
+
+**The "Try to Follow" Rules:**
+
+- Avoid `cd ... && anything...` - it's confusing and error-prone
+- Skip dynamic imports unless absolutely necessary
+
+**When Rules Get in the Way:**
+
+- **Break the rules if they're slowing you down** - This is your project, not a corporate codebase
+- **Quick hacks are okay** - Just move them to `pseudo/` or clean them up later
+- **Documentation can be rough** - Better to have something than nothing
+- **"Good enough" beats "perfect"** - Especially when you're tired or stuck
