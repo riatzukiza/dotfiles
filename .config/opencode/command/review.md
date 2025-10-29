@@ -9,7 +9,5 @@ Review task for completion of acceptance criteria
 - Are there any linting issues?
 
 
-
-
 !`pnpm kanban getByColumn in_review`
 !`pnpm kanban getByColumn review`
