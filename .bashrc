@@ -234,7 +234,7 @@ PATH="$PATH:/home/err/bin"
 
 # Added by setup-native-node-build.sh
 export PATH="/home/err/devel/promethean/.volta/tools/image/node/20.19.4/bin:$PATH"
-. "$HOME/.cargo/env"
+# . "$HOME/.cargo/env"
 # pnpm
 export PNPM_HOME="/home/err/.local/share/pnpm"
 case ":$PATH:" in
@@ -264,7 +264,7 @@ export PATH="/home/err/devel/promethean/.volta/tools/image/node/20.19.4/bin:$PAT
 # opencode
 # export PATH=/home/err/.opencode/bin:$PATH
 # export PATH=/home/err/devel/stt/opencode/packages/opencode/dist/opencode-linux-x64/bin:$PATH
-source ~/.pnpm-completion.bash
+# source ~/.pnpm-completion.bash
 
 
 vterm_printf(){
