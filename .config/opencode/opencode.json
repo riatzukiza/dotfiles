@@ -4,9 +4,6 @@
     "opencode-openai-codex-auth"
   ],
   "agent":{
-    "plan":{
-      "model":"zai-coding-plan/glm-"
-    },
     "reistricted-build":{
       "disable":true,
       "permission":{
