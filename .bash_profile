@@ -1,5 +1,5 @@
 
-. "$HOME/.cargo/env"
+# . "$HOME/.cargo/env"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
@@ -89,9 +89,9 @@ PATH="$PATH:/home/err/bin"
 
 # Added by setup-native-node-build.sh
 export PATH="/home/err/devel/promethean/.volta/tools/image/node/20.19.4/bin:$PATH"
-. "$HOME/.cargo/env"
+# . "$HOME/.cargo/env"
 
 # opencode
 # export PATH=/home/err/.opencode/bin:$PATH
 # export PATH=/home/err/devel/stt/opencode/packages/opencode/dist/opencode-linux-x64/bin:$PATH
-source ~/.pnpm-completion.bash
+# source ~/.pnpm-completion.bash
