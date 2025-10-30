@@ -231,6 +231,7 @@
       "git log*": "allow",
       "git show*": "allow",
       "git add*": "allow",
+      "git diff*": "allow",
       "git commit*": "allow",
       "pnpm kanban*": "allow",
       "mkdir *{*}": "ask",
