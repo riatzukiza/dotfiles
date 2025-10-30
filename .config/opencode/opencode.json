@@ -4,9 +4,6 @@
     "opencode-openai-codex-auth"
   ],
   "agent":{
-    "plan":{
-      "model":"zai-coding-plan/glm-"
-    },
     "reistricted-build":{
       "disable":true,
       "permission":{
@@ -233,6 +230,7 @@
       "git status*": "allow",
       "git log*": "allow",
       "git show*": "allow",
+      "git add*": "allow",
       "git commit*": "allow",
       "pnpm kanban*": "allow",
       "mkdir *{*}": "ask",
