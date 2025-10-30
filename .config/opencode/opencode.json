@@ -193,7 +193,7 @@
     "eslint": {
       "enabled": true,
       "command": [
-        "npx","eslint-lsp","-y",
+        "eslint-lsp",
         "--stdio"
       ],
       "extensions": [
