@@ -239,6 +239,9 @@
       "*": "allow" // <<< ADD THIS RIGHT HERE
     }
   },
+  "keybinds": {
+    "leader": "ctrl+space",
+  },
   "tools": {
     "clj*": false,
     "playwright*":false,
