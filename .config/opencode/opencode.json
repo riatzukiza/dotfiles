@@ -240,7 +240,7 @@
     }
   },
   "keybinds": {
-    "leader": "ctrl+space",
+    "leader": "ctrl+space"
   },
   "tools": {
     "clj*": false,
