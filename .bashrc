@@ -165,7 +165,7 @@ export CFG_BRANCH_NAME=device/$HOSTNAME
 
 # if the cfg repo is not initialized yet
 if [ ! -d $HOME/.cfg ]; then
-    git clone --bare
+    git clone --bare  git@github.com:riatzukiza/dotfiles.git
 fi
 
 # --- Hide hostname in Oh-My-Bash prompt (put this after oh-my-bash.sh) ---
