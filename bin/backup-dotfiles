@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+alias cfg="git --git-dir=$HOME/.cfg --work-tree=$HOME"
+
+# if the cfg repo is not initialized yet
+if [ ! -d $HOME/.cfg ]; then
+    git clone --bare  git@github.com:riatzukiza/dotfiles.git
+fi
+# If not alredy on the correct branch
+if [ "$(cfg rev-parse --abbrev-ref HEAD)" != "$CFG_BRANCH_NAME" ]; then
+    cfg checkout -b $CFG_BRANCH_NAME
+fi
+
+
+## If the remote is not set yet
+if ! cfg remote | grep origin; then
+    cfg remote add origin git@github.com:riatzukiza/dotfiles.git
+fi
+
+
+cfg pull origin $CFG_BRANCH_NAME
+cfg add ~/.bashrc ~/.gitconfig ~/.config/i3/config \
+    ~/.config/i3/conf.d/ \
+    ~/.config/espanso/ \
+    ~/.config/alacritty/alacritty.toml \
+    ~/.config/nvim/init.vim \
+    ~/.config/fontconfig/fonts.conf \
+    ~/.config/htop/htoprc \
+    ~/.config/picom/picom.conf \
+    ~/.config/opencode/plugin/ \
+    ~/.config/opencode/agent/ \
+    ~/.config/opencode/command/ \
+    ~/.config/opencode/opencode.json \
+    ~/.config/opencode/AGENTS.md \
+    ~/run/ \
+    ~/bin/ \
+    ~/.spacemacs \
+    ~/.profile \
+    ~/.bash_profile
+
+
+cfg commit -m "backup"
+cfg push -u origin $CFG_BRANCH_NAME

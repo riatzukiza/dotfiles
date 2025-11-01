@@ -1,0 +1,112 @@
+#!/usr/bin/env nbb
+(ns backup-dotfiles
+  (:require
+    ["child_process" :as cp]
+    ["fs" :as fs]
+    ["path" :as path]
+    [clojure.string :as str]))
+
+(defn log [msg & args] (apply js/console.log  msg args))
+(log "Starting dotfiles backup script...")
+
+(def home js/process.env.HOME)
+(def cfg-dir (path/join home ".cfg"))
+(def repo-url "git@github.com:riatzukiza/dotfiles.git")
+(def cfg-branch (or js/process.env.CFG_BRANCH_NAME "main"))
+
+;; capture stdout as a UTF-8 string
+(defn shv [cmd]
+  (cp/execSync cmd #js {:encoding "utf8"}))          ;; returns string
+
+;; passthrough to terminal (no capture)
+(defn sh! [cmd]
+  (cp/execSync cmd #js {:stdio "inherit"})           ;; returns nil
+  nil)
+
+(defn cfgv [& args]                                  ;; capture variant
+  (shv (str "git --git-dir=" cfg-dir " --work-tree=" home " "
+            (str/join " " args))))
+
+(defn cfg! [& args]                                  ;; passthrough variant
+  (sh! (str "git --git-dir=" cfg-dir " --work-tree=" home " "
+            (str/join " " args))))
+
+(defn ensure-repo []
+  (when-not (.existsSync fs cfg-dir)
+    (sh! (str "git clone --bare " repo-url " " cfg-dir))))
+
+(defn branch-exists? [branch]
+  (let [cmd (str "git --git-dir=" cfg-dir " --work-tree=" home
+                 " rev-parse --verify --quiet refs/heads/" branch)]
+    (try
+      (sh! cmd)
+      true
+      (catch :default _
+        false))))
+
+(defn ensure-branch []
+  (if (branch-exists? cfg-branch)
+    (do
+      (log "Branch exists: " cfg-branch ", checking it out.")
+      (cfg! "checkout" cfg-branch))
+    (do
+      (log "Branch does not exist: " cfg-branch ", creating it.")
+      (cfg! "checkout" "-b" cfg-branch))))
+
+
+
+(defn remote-exists? []
+  (let [out (cfgv "remote")]
+    (log "remote name" out)
+    (boolean (re-find #"^origin\s" out))))
+
+(defn ensure-remote []
+  (if (remote-exists?)
+    (log "Remote origin already exists.")
+    (do
+      (log "Remote origin missing — adding it.")
+      (cfg! "remote" "add" "origin" repo-url))))
+
+
+(def tracked-paths
+  ["~/.bashrc"
+   "~/.gitconfig"
+   "~/.config/i3/config"
+   "~/.config/i3/conf.d/"
+   "~/.config/espanso/"
+   "~/.config/alacritty/alacritty.toml"
+   "~/.config/nvim/init.vim"
+   "~/.config/fontconfig/fonts.conf"
+   "~/.config/htop/htoprc"
+   "~/.config/picom/picom.conf"
+   "~/.config/opencode/plugin/"
+   "~/.config/opencode/agent/"
+   "~/.config/opencode/command/"
+   "~/.config/opencode/opencode.json"
+   "~/.config/opencode/AGENTS.md"
+   "~/run/"
+   "~/bin/"
+   "~/.spacemacs"
+   "~/.profile"
+   "~/.bash_profile"])
+
+
+(defn backup []
+  (log "Starting backup...")
+  (ensure-repo)
+  (log "Ensured repo.")
+  (ensure-branch)
+    (log "Ensured branch.")
+  (ensure-remote)
+    (log "Ensured remote.")
+  (log "pulling origin from " cfg-branch)
+  (cfg! "pull" "origin" cfg-branch)
+  (doseq [f tracked-paths]
+    (log "Adding path: " f)
+    (cfg! "add" f)
+    (log "Added path: " f))
+  (cfg! "commit" "-m" "\"backup\"")
+  (cfg! "push" "-u" "origin" cfg-branch))
+
+;; Entry point
+(backup)
