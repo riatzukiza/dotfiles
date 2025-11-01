@@ -102,7 +102,6 @@
   (log "pulling origin from " cfg-branch)
   (cfg! "pull" "origin" cfg-branch)
   (doseq [f tracked-paths]
-    (log "Adding path: " f)
     (cfg! "add" f)
     (log "Added path: " f))
   (cfg! "commit" "-m" "\"backup\"")
