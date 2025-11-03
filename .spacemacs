@@ -39,7 +39,7 @@ This function should only modify configuration layer settings."
                  javascript-fmt-tool 'prettier
                  node-add-modules-path t
                  )
-     opencode-agent-shell
+     ;;opencode-agent-shell
      html
      toml
      yaml
