@@ -5,8 +5,7 @@
   // ],
 
   "plugin": [
-    "@promethean-os/opencode-openai-codex-auth",
-    "./tools/opencode-clj-guard-tool"
+    "@promethean-os/opencode-openai-codex-auth"
   ],
   "agent":{
     "reistricted-build":{
