@@ -1,7 +1,7 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "plugin": [
-    "opencode-openai-codex-auth"
+    "@promethean-os/opencode-openai-codex-auth"
   ],
   "agent":{
     "reistricted-build":{
@@ -244,7 +244,9 @@
       "git log*": "allow",
       "git show*": "allow",
       "git commit*": "allow",
+      "git add*": "allow",
       "pnpm kanban*": "allow",
+      "pnpm --filter *": "allow",
       "mkdir *{*}": "ask",
       "cd*&&*": "deny",
       "*": "allow" // <<< ADD THIS RIGHT HERE
