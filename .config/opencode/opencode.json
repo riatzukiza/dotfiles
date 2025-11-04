@@ -1,7 +1,11 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  // "plugin": [
+  //   "@promethean-os/opencode-openai-codex-auth"
+  // ],
+
   "plugin": [
-    "@promethean-os/opencode-openai-codex-auth"
+    "opencode-openai-codex-auth"
   ],
   "agent":{
     "reistricted-build":{
@@ -202,7 +206,6 @@
     }
   },
   "lsp":{
-
     // "eslint": {
     //   "enabled": true,
     //   "command": [
