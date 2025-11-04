@@ -203,20 +203,20 @@
   },
   "lsp":{
 
-    "eslint": {
-      "enabled": true,
-      "command": [
-        "eslint-lsp",
-        "--stdio"
-      ],
-      "extensions": [
-        ".ts",
-        ".tsx",
-        ".js",
-        ".jsx",
-        ".vue"
-      ]
-    }
+    // "eslint": {
+    //   "enabled": true,
+    //   "command": [
+    //     "eslint-lsp",
+    //     "--stdio"
+    //   ],
+    //   "extensions": [
+    //     ".ts",
+    //     ".tsx",
+    //     ".js",
+    //     ".jsx",
+    //     ".vue"
+    //   ]
+    // }
   },
   "permission": {
     "bash": {
