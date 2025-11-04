@@ -5,7 +5,7 @@
   // ],
 
   "plugin": [
-    "opencode-openai-codex-auth",
+    "@promethean-os/opencode-openai-codex-auth",
     "./plugin/clojure-delimiter-checker"
   ],
   "agent":{
