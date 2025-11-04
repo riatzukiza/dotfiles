@@ -285,3 +285,4 @@ _direnv_hook() {
 if ! [[ "${PROMPT_COMMAND:-}" =~ _direnv_hook ]]; then
   PROMPT_COMMAND="_direnv_hook${PROMPT_COMMAND:+;$PROMPT_COMMAND}"
 fi
+export PATH="$PATH:/home/err/devel/bin"
