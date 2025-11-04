@@ -14,16 +14,12 @@ description: >-
 mode: all
 tools:
   bash: false
-  edit: false
-  read: false
-  glob: false
-  grep: false
-  write: false
   clj*: true
   clj*bash: false
   serena*: false
   ollama*: false
   pm2*: false
+  chrome-devtools*: true
 ---
 
 You are a senior Frontend Development Specialist with deep expertise in modern web technologies,
