@@ -6,7 +6,7 @@
 
   "plugin": [
     "@promethean-os/opencode-openai-codex-auth",
-    "./plugin/clojure-delimiter-checker"
+    "./tools/opencode-clj-guard-tool"
   ],
   "agent":{
     "reistricted-build":{
