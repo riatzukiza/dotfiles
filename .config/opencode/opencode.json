@@ -5,7 +5,8 @@
   // ],
 
   "plugin": [
-    "opencode-openai-codex-auth"
+    "opencode-openai-codex-auth",
+    "./plugin/clojure-delimiter-checker"
   ],
   "agent":{
     "reistricted-build":{
