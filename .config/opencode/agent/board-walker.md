@@ -9,7 +9,7 @@ description: >-
   snapshot of what's on the board. It should also be used when a user wants to
   understand how tasks are distributed across teams or how progress is being
   tracked in a visual board format.
-mode: all
+mode: subagent
 model: ollama_openai/error/qwen3:4b-instruct-100k
 tools:
     process*: false

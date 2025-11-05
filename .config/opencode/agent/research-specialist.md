@@ -3,7 +3,7 @@ description: >-
   Use this agent when you need comprehensive research tasks including web research,
   code repository analysis, visual content analysis, and automated browser interactions.
   frontend frameworks, including web searches, code analysis, and performance comparisons.
-mode: all
+mode: subagent
 tools:
   pm2*: false
   ollama*: false

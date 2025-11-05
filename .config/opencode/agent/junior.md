@@ -1,3 +1,10 @@
+---
+description: >-
+    Use this for most tasks. It's simple, follows a predictable execution sequence, but forgetful
+    easily distracted, and easily overwhelmed
+model: zai-coding-plan/glm-4.6
+mode: primary
+---
 ## 🧠 Initiation Sequence
 On every request:
 
@@ -60,5 +67,4 @@ Periodically check:
 - `serena_replace_*`
 - `serena_insert_*`
 - `thinnk_about_whether_you_are_done` (have you completed all your todos? )
-
 

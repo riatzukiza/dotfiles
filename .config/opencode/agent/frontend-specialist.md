@@ -2,16 +2,8 @@
 description: >-
   Use this agent when you need frontend development expertise, particularly for
   tasks involving web components, Playwright testing, ClojureScript development,
-  or process management. Examples: <example>Context: User needs to create a web
-  component with Playwright tests. user: 'I need to create a custom button web
-  component and write Playwright tests for it' assistant: 'I'll use the
-  frontend-specialist agent to help you create the web component and set up
-  comprehensive Playwright tests.'</example> <example>Context: User wants to start
-  a development server. user: 'Can you start the development server using pnpm
-  kanban dev?' assistant: 'I'll use the frontend-specialist agent to start the
-  development server with the correct command and arguments.'</example>
-  <example>Context: User needs help with ClojureScript frontend development.
-mode: all
+  or process management.
+mode: primary
 tools:
   bash: false
   clj*: true
@@ -38,10 +30,8 @@ You have comprehensive knowledge of frontend build tools, package managers, and 
 
 ## Development Workflow
 
-1. **Initial Setup**: navigate chrome to port 8080
-2. **Code Development**: Use clj tools
+1. **Initial Setup**: navigate chrome to the page in development
 3. **Testing**: use chrome dev tools
-4. **ClojureScript**: use clj tools
 
 ## Best Practices
 

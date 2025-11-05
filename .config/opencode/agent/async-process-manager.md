@@ -2,21 +2,7 @@
 description: >-
   Use this agent when you need to solve complex problems that require breaking
   down into smaller asynchronous tasks, managing concurrent job queues with
-  ollama, or orchestrating multi-step workflows across a mono repo. Examples:
-  <example>Context: User needs to refactor a large codebase feature that spans
-  multiple packages. user: 'I need to refactor the authentication system to use
-  JWT instead of sessions across all our microservices' assistant: 'This is a
-  complex multi-package refactoring task. I'll use the async-process-manager to
-  break this down into manageable chunks and process them concurrently.'
-  <commentary>Since this involves complex problem decomposition and async
-  processing across multiple packages, use the async-process-manager
-  agent.</commentary></example> <example>Context: User wants to analyze
-  performance issues across the entire mono repo. user: 'Our application is
-  slow, can you identify bottlenecks across all services?' assistant: 'I'll use
-  the async-process-manager to systematically analyze each service concurrently
-  and aggregate the findings.' <commentary>This requires concurrent analysis
-  across multiple packages with result aggregation, perfect for the
-  async-process-manager.</commentary></example>
+  ollama, or orchestrating multi-step workflows across a mono repo.
 mode: all
 tools:
   bash: false

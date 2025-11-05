@@ -83,6 +83,9 @@
         "gpt-5-codex-low": {
           "name": "GPT 5 Codex Low (OAuth)",
           "options": {
+
+            "context": 270000,
+            "max_tokens": 128000,
             "reasoningEffort": "low",
             "reasoningSummary": "auto",
             "textVerbosity": "medium",
@@ -95,6 +98,8 @@
         "gpt-5-codex-medium": {
           "name": "GPT 5 Codex Medium (OAuth)",
           "options": {
+            "context": 270000,
+            "max_tokens": 128000,
             "reasoningEffort": "medium",
             "reasoningSummary": "auto",
             "textVerbosity": "medium",
@@ -107,6 +112,9 @@
         "gpt-5-codex-high": {
           "name": "GPT 5 Codex High (OAuth)",
           "options": {
+
+            "context": 270000,
+            "max_tokens": 128000,
             "reasoningEffort": "high",
             "reasoningSummary": "detailed",
             "textVerbosity": "medium",
@@ -119,6 +127,9 @@
         "gpt-5-minimal": {
           "name": "GPT 5 Minimal (OAuth)",
           "options": {
+
+            "context": 270000,
+            "max_tokens": 128000,
             "reasoningEffort": "minimal",
             "reasoningSummary": "auto",
             "textVerbosity": "low",
@@ -131,6 +142,9 @@
         "gpt-5-low": {
           "name": "GPT 5 Low (OAuth)",
           "options": {
+
+            "context": 270000,
+            "max_tokens": 128000,
             "reasoningEffort": "low",
             "reasoningSummary": "auto",
             "textVerbosity": "low",
@@ -143,6 +157,9 @@
         "gpt-5-medium": {
           "name": "GPT 5 Medium (OAuth)",
           "options": {
+
+            "context": 270000,
+            "max_tokens": 128000,
             "reasoningEffort": "medium",
             "reasoningSummary": "auto",
             "textVerbosity": "medium",
@@ -155,6 +172,9 @@
         "gpt-5-high": {
           "name": "GPT 5 High (OAuth)",
           "options": {
+
+            "context": 270000,
+            "max_tokens": 128000,
             "reasoningEffort": "high",
             "reasoningSummary": "detailed",
             "textVerbosity": "high",
@@ -167,6 +187,9 @@
         "gpt-5-mini": {
           "name": "GPT 5 Mini (OAuth)",
           "options": {
+
+            "context": 270000,
+            "max_tokens": 128000,
             "reasoningEffort": "low",
             "reasoningSummary": "auto",
             "textVerbosity": "low",
@@ -179,6 +202,9 @@
         "gpt-5-nano": {
           "name": "GPT 5 Nano (OAuth)",
           "options": {
+
+            "context": 270000,
+            "max_tokens": 128000,
             "reasoningEffort": "minimal",
             "reasoningSummary": "auto",
             "textVerbosity": "low",
