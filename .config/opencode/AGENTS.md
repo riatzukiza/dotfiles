@@ -1,11 +1,3 @@
-## 🧠 Initiation Sequence
-On every request:
-
-1. `context7` → fetch related documentation
-2. `github grep` → explore package implementations
-3. `web search` → find guides and references
-5. `git log` + Opencode session history → review recent events
-
 ## Methodology
 Think the feature through thoroughly and break the feature down into small steps to produce a detailed,
 step-by-step plan for implementing the feature. Group the plan's steps into "phases".
@@ -38,7 +30,7 @@ Use these tools in any order you see fit to find information related to the prom
 - `serena_find_*` to understand the relation ship between files and symbols in a project
 - `context7` → fetch related documentation
 - `github grep` → explore package implementations
-- `web search` → find guides and references
+- `web-search-` → find guides and references
 - `git log` + Opencode session history → review recent events
 - `serena_think_about_collected_information` when you think you have enough information (are all of your planning todo's completed?)
 
