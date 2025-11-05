@@ -16,6 +16,46 @@
     }
   },
   "provider": {
+    "opencode":{
+      "models":{
+        "big-pickle/thinking":{
+          "name":"Pickle Rick",
+          "id":"big-pickle",
+          "options":{
+            "reasoningEffort":"high",
+            "reasoningSummary":"detailed",
+            "textVerbosity":"high",
+            "thinking":{
+              "type":"enabled"
+            },
+            "include":[
+              "reasoning.encrypted_content"
+            ],
+            "store":false
+          }
+        }
+      }
+    },
+    "zai-coding-plan":{
+      "models":{
+        "glm-4.6/thinking":{
+          "name":"GLM 4.6 Thinking",
+          "id":"glm-4.6",
+          "options":{
+            "reasoningEffort":"high",
+            "reasoningSummary":"detailed",
+            "textVerbosity":"high",
+            "thinking":{
+              "type":"enabled"
+            },
+            "include":[
+              "reasoning.encrypted_content"
+            ],
+            "store":false
+          }
+        }
+      }
+    },
 
     "ollama_openai": {
       "npm": "@ai-sdk/openai-compatible",
@@ -269,5 +309,22 @@
   },
   "keybinds":{
     "leader":"ctrl+space"
-  }
+  },
+    "lsp":{
+
+      "clojure": {
+        "command": [
+          "clojure-lsp",
+          "listen"
+        ],
+        "extensions": [
+          ".clj",
+          ".cljs",
+          ".cljc",
+          ".edn"
+        ]
+      }
+    }
+
+
 }

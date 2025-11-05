@@ -28,10 +28,14 @@ class BracketMatcher {
 
     private getOrCreateDecoration(key: string): vscode.TextEditorDecorationType {
         if (!this.decorationCache.has(key)) {
+            const config = vscode.workspace.getConfiguration('clojureDelimiterGuard');
+            const highlightColor = config.get<string>('highlightColor', 'editor.wordHighlightBackground');
+            const borderColor = config.get<string>('borderColor', 'editor.wordHighlightBorder');
+            
             this.decorationCache.set(key, vscode.window.createTextEditorDecorationType({
-                backgroundColor: new vscode.ThemeColor('editor.wordHighlightBackground'),
+                backgroundColor: new vscode.ThemeColor(highlightColor),
                 border: '1px solid',
-                borderColor: new vscode.ThemeColor('editor.wordHighlightBorder'),
+                borderColor: new vscode.ThemeColor(borderColor),
                 borderRadius: '2px'
             }));
         }
@@ -61,13 +65,16 @@ class BracketMatcher {
     }
 
     private getScanRange(editor: vscode.TextEditor): vscode.Range {
+        const config = vscode.workspace.getConfiguration('clojureDelimiterGuard');
+        const scanBuffer = config.get<number>('scanBuffer', 50);
+        
         const visibleRange = editor.visibleRanges[0];
         if (!visibleRange) {
             return new vscode.Range(0, 0, editor.document.lineCount - 1, 0);
         }
         
-        const bufferStart = Math.max(0, visibleRange.start.line - 50);
-        const bufferEnd = Math.min(editor.document.lineCount - 1, visibleRange.end.line + 50);
+        const bufferStart = Math.max(0, visibleRange.start.line - scanBuffer);
+        const bufferEnd = Math.min(editor.document.lineCount - 1, visibleRange.end.line + scanBuffer);
         
         const startPos = new vscode.Position(bufferStart, 0);
         const endPos = new vscode.Position(bufferEnd, editor.document.lineAt(bufferEnd).text.length);
@@ -78,6 +85,14 @@ class BracketMatcher {
     updateDecorations(editor: vscode.TextEditor): void {
         try {
             if (!editor || !editor.document) return;
+            
+            const config = vscode.workspace.getConfiguration('clojureDelimiterGuard');
+            const enabled = config.get<boolean>('enabled', true);
+            
+            if (!enabled) {
+                this.clearAllDecorations(editor);
+                return;
+            }
             
             const document = editor.document;
             if (document.languageId !== 'clojure') {
@@ -170,7 +185,7 @@ class BracketMatcher {
 }
 
 class AutoCloser {
-    private debounceTimeout: NodeJS.Timeout | undefined;
+    private debounceTimeout: any;
     private readonly autoClosePairs: { [key: string]: string } = {
         '(': ')',
         '[': ']',
@@ -181,10 +196,16 @@ class AutoCloser {
     };
 
     handleTextChange(event: vscode.TextDocumentChangeEvent): void {
+        const config = vscode.workspace.getConfiguration('clojureDelimiterGuard');
+        const autoCloseEnabled = config.get<boolean>('autoClosePairs', true);
+        const debounceDelay = config.get<number>('debounceDelay', 50);
+        
+        if (!autoCloseEnabled) return;
+        
         clearTimeout(this.debounceTimeout);
         this.debounceTimeout = setTimeout(() => {
             this.processAutoClose(event);
-        }, 50);
+        }, debounceDelay);
     }
 
     private processAutoClose(event: vscode.TextDocumentChangeEvent): void {
@@ -233,72 +254,7 @@ export function activate(context: vscode.ExtensionContext) {
     const bracketMatcher = new BracketMatcher();
     const autoCloser = new AutoCloser();
 
-    // Skip string literal
-    const skipString = (text: string, i: number): number => {
-        let j = i + 1;
-        let escape = false;
-        while (j < text.length) {
-            const ch = text[j];
-            if (escape) { escape = false; j++; continue; }
-            if (ch === "\\") { escape = true; j++; continue; }
-            if (ch === '"') return j + 1;
-            j++;
-        }
-        return j;
-    };
 
-    // Skip comment
-    const skipComment = (text: string, i: number): number => {
-        let j = i + 1;
-        while (j < text.length && text[j] !== '\n') {
-            j++;
-        }
-        return j;
-    };
-
-    // Auto-closing pairs
-    const autoClosePairs: { [key: string]: string } = {
-        '(': ')',
-        '[': ']',
-        '{': '}',
-        '"': '"',
-        '#{': '}',
-        '#(': ')'
-    };
-
-    // Handle auto-closing
-    const handleAutoClose = (event: vscode.TextDocumentChangeEvent) => {
-        const editor = vscode.window.activeTextEditor;
-        if (!editor || event.document !== editor.document) return;
-        
-        const changes = event.contentChanges;
-        if (changes.length === 0) return;
-
-        const change = changes[0];
-        const range = change.range;
-        const text = change.text;
-
-        // Check if it's a single character insertion
-        if (range.end.isEqual(range.start) && text.length === 1) {
-            const char = text;
-            
-            for (const [open, close] of Object.entries(autoClosePairs)) {
-                if (char === open) {
-                    // Check if the next character is not already the close bracket
-                    const position = range.end;
-                    const line = editor.document.lineAt(position.line);
-                    const nextChar = line.text[position.character] || '';
-                    
-                    if (nextChar !== close && !/[a-zA-Z0-9]/.test(nextChar)) {
-                        const edit = new vscode.WorkspaceEdit();
-                        edit.insert(editor.document.uri, position, close);
-                        vscode.workspace.applyEdit(edit);
-                    }
-                    break;
-                }
-            }
-        }
-    };
 
     // Register for text changes and cursor movement
     const activeEditor = vscode.window.activeTextEditor;
