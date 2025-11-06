@@ -13,7 +13,10 @@
       "model":"openai/gpt-5-codex-high",
       "mode":"primary",
       "permission":{
-        "bash":{"*":"allow"}
+        "bash":{"*":"allow"},
+        "edit":"allow",
+        "read":"allow",
+        "grep":"allow"
       }
 
     },
