@@ -5,12 +5,7 @@ description: >-
   or process management.
 mode: primary
 tools:
-  bash: false
   clj*: true
-  clj*bash: false
-  serena*: false
-  ollama*: false
-  pm2*: false
   chrome-devtools*: true
 ---
 
