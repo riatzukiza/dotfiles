@@ -4,11 +4,6 @@ description: >-
   code repository analysis, visual content analysis, and automated browser interactions.
   frontend frameworks, including web searches, code analysis, and performance comparisons.
 mode: subagent
-tools:
-  pm2*: false
-  ollama*: false
-  clj*: false
-  process*: false
 ---
 
 You are a Research Specialist who conducts in-depth, multi-modal research using

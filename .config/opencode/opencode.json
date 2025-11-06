@@ -249,18 +249,6 @@
     },
     "gh_grep": { "type": "remote", "url": "https://mcp.grep.app", "enabled": true }
   },
-  "tools": {
-    "clj*": false,
-    "playwright*": false,
-    "DirectProcess.*": false,
-    "Events.*": false,
-    "Messaging.*": false,
-    "Messages.*": false,
-    "ollama.*": false,
-    "Cache.*": false,
-    "Sessions.*": false,
-    "chrome*": false
-  },
   "keybinds": { "leader": "ctrl+space" },
   "lsp": {
     "clojure": {
