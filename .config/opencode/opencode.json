@@ -1,12 +1,12 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  // "plugin": [
-  //   "@promethean-os/opencode-openai-codex-auth"
-  // ],
-
   "plugin": [
-    "file:///home/err/devel/orgs/riatzukiza/opencode-openai-codex-auth"
+    "@promethean-os/opencode-openai-codex-auth"
   ],
+
+  // "plugin": [
+  //   "file:///home/err/devel/orgs/riatzukiza/opencode-openai-codex-auth"
+  // ],
   "agent": {
     // Typo fixed: "reistricted-build" -> "restricted-build"
     "restricted-build": {
