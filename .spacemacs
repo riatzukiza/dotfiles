@@ -313,6 +313,9 @@ before packages are loaded."
 
   (global-flycheck-mode)
   ;; Map TS tree-sitter modes to VSCode language IDs ESLint expects
+  (with-eval-after-load '
+      (setq lsp-semgrep-languages nil))
+
 
 
   ;; (use-package lsp-ui
