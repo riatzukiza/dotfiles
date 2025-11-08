@@ -12,62 +12,6 @@
     "restricted-build": {
       "disable": true,
       "permission": { "edit": "ask" }
-    },
-    "codex-high":{
-      "model":"openai/gpt-5-codex-high",
-      "mode":"primary",
-      "permission":{
-        "bash":{"*":"allow"},
-        "edit":"allow",
-        "read":"allow",
-        "grep":"allow"
-      }
-
-    },
-
-    "gpt-high":{
-      "model":"openai/gpt-5-high",
-      "mode":"primary",
-      "permission":{
-        "bash":{"*":"allow"}
-      }
-
-    },
-    "glm-4.6":{
-      "model":"zai-coding-plan/glm-4.6/thinking",
-      "permission": {
-        "bash": {
-          "ls*": "allow",
-          "pnpm build*": "ask",
-          "pnpm test*": "ask",
-          "node *": "ask",
-          "uvx *": "ask",
-          "npx *": "ask",
-          "kill *": "deny",
-          "pkill *": "deny",
-          "pm2 logs": "deny",
-          "pm2 logs * --nostream": "allow",
-          "pm2 stop *": "deny",
-          "pm2 delete *": "deny",
-          "pm2 *": "deny",
-          "rm *": "ask",
-          "bash *": "ask",
-          "unlink *": "ask",
-          "rmdir *": "ask",
-          "chmod *": "ask",          // fixed typo
-          "chown *": "ask",
-          "git *": "ask",
-          "git status*": "allow",
-          "git log*": "allow",
-          "git show*": "allow",
-          "git commit*": "allow",
-          "git add*": "allow",
-          "pnpm kanban*": "allow",
-          "pnpm --filter *": "allow",
-          "mkdir *{*}": "ask",
-          "*": "allow"
-        }
-      },
     }
   },
   "provider": {

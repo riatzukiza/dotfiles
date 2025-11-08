@@ -12,7 +12,7 @@ This function should only modify configuration layer settings."
 
    dotspacemacs-ask-for-lazy-installation t
 
-   dotspacemacs-configuration-layer-path '("~/devel/promethean/.emacs/layers/")
+   dotspacemacs-configuration-layer-path '("~/devel/orgs/riatzukiza/promethean/.emacs/layers/")
 
    dotspacemacs-configuration-layers
    '(purescript
@@ -313,8 +313,8 @@ before packages are loaded."
 
   (global-flycheck-mode)
   ;; Map TS tree-sitter modes to VSCode language IDs ESLint expects
-  (with-eval-after-load '
-      (setq lsp-semgrep-languages nil))
+  (with-eval-after-load 'lsp-mode
+    (setq lsp-semgrep-languages nil))
 
 
 

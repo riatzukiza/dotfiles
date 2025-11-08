@@ -1,0 +1,7 @@
+{
+  "model": "openai/gpt-5-high",
+  "mode": "primary",
+  "permission": {
+    "bash": {"*": "allow"}
+  }
+}
