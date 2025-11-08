@@ -3,16 +3,13 @@ Think the feature through thoroughly and break the feature down into small steps
 step-by-step plan for implementing the feature. Group the plan's steps into "phases".
 The code MUST build correctly and all tests MUST pass after each phase.
 
-## 🧠 Initiation Sequence
-- allow `serena` to guide you
-- regularly `serena_think_about_task_adherance`
 
-### Serena
-1. `serena_check_onboarding_performed`
-   - perform `serena_onboarding` if not
-2. `serena_activate_project`
-3. `serena_prepare_for_new_conversation`
-4. `serena_list_memories`
+## Initiation sequence
+If changes are requested
+- fetch changes from remote
+- create a new branch based on origin/dev
+- create a new worktree in `.worktrees/`
+- check out the new branch in the new work tree
 
 ## Planning and research
 
@@ -24,33 +21,31 @@ of the code base, and the subject matter to create a plan of action.
 Use these tools in any order you see fit to find information related to the prompt:
 
 - Create a planning todo (`todowrite`)
-- `serena_read_memory` read memories related to the prompt
-- `serena_write_memory` anything that seems important
-- `serena_delete_memory` to remove facts that are no longer accurate
-- `serena_find_*` to understand the relation ship between files and symbols in a project
 - `context7` → fetch related documentation
 - `github grep` → explore package implementations
 - `web-search-` → find guides and references
-- `git log` + Opencode session history → review recent events
-- `serena_think_about_collected_information` when you think you have enough information (are all of your planning todo's completed?)
+- `bash` commands:
+  - `gh issues ...`: are there existing issues similar to this one?
+  - `gh pr ...`: Has someone already opened a PR for this?
+- `find`, `blob`, `grep` search the local project for code and docs related to the user's query
 
-### Finalize the plan
-Once you have finished collecting information, create a new serena memory
-- `todowrite` considering the initial prompt, and collected information
-- `serena_write_memory` with a summary of your findings
-- `serena_delete_memory` to remove previous outdated/duplicate/unnecessary research summaries
+### (Finalize) the plan
+Once you have finished collecting information
+- `todowrite` considering the initial prompt, and collected information:
+- create a `./spec/*.md` mentioning:
+  - code files and line numbers
+  - existing issues
+  - existing PR
+  - definition of done
+  - requirements
+
 
 ## Execution
 
 Once you have a plan, begin execution.
 Periodically check:
-- `serena_think_about_task_adherance`
 - `todoread`
-- `serena_list_memories`
-- `serena_read_memory`
-- `serena_read_write`
-- `serena_replace_*`
-- `serena_insert_*`
-- `thinnk_about_whether_you_are_done` (have you completed all your todos? )
-
-
+- the spec files you made, updating them as you work.
+  - append commentary as you encounter unexpected unexpected complications
+  - append change logs at the end of a session
+- commit your work
