@@ -6,6 +6,7 @@ import * as path from 'node:path';
 
 import type { Cache } from '@promethean-os/level-cache';
 import { openLevelCache } from '@promethean-os/level-cache';
+import { createHybridCache, type HybridCacheConfig, type CacheBackend } from './redis-hybrid-cache';
 
 const LOCK_TTL_MS = 5 * 60 * 1000; // 5 minutes
 const CACHE_DIR = path.join(tmpdir(), 'opencode', 'file-locks');
@@ -68,12 +69,43 @@ const ensureCacheDir = (() => {
 const getLockCache = async () => {
   if (!cachePromise) {
     cachePromise = (async () => {
-      await ensureCacheDir();
-      return openLevelCache<LockRecord>({
-        path: CACHE_DIR,
+      // Determine cache backend from environment or default to hybrid
+      const cacheBackend = (process.env.FILE_LOCK_CACHE_BACKEND as CacheBackend) || 'hybrid';
+      
+      const hybridConfig: HybridCacheConfig = {
+        backend: cacheBackend,
+        leveldbPath: CACHE_DIR,
+        fallbackOnError: true,
+      };
+
+      // Add Redis config if needed
+      if (cacheBackend === 'redis' || cacheBackend === 'hybrid') {
+        hybridConfig.redisConfig = {
+          url: process.env.REDIS_URL,
+          host: process.env.REDIS_HOST || 'localhost',
+          port: parseInt(process.env.REDIS_PORT || '6379'),
+          password: process.env.REDIS_PASSWORD,
+          database: parseInt(process.env.REDIS_DATABASE || '0'),
+          connectTimeout: 10000,
+          commandTimeout: 5000,
+        };
+      }
+
+      const cache = createHybridCache<LockRecord>(hybridConfig, {
         namespace: CACHE_NAMESPACE,
         defaultTtlMs: LOCK_TTL_MS,
       });
+
+      // Log cache configuration for debugging
+      console.log(`🔐 FileLock: Using ${cacheBackend} backend (fallback: ${hybridConfig.fallbackOnError})`);
+      
+      // Perform health check
+      if (process.env.DEBUG_FILE_LOCK_CACHE === 'true') {
+        const health = await cache.healthCheck();
+        console.log(`🔐 FileLock: Health check:`, health);
+      }
+
+      return cache;
     })();
   }
   return cachePromise;
