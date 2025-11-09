@@ -3,20 +3,7 @@ description: >-
   Use this agent when you need to ensure that work items on a kanban board are
   following the established process flow, when agents are skipping required
   steps like code review or documentation, or when you need to audit the kanban
-  board for compliance with workflow rules. Examples: <example>Context: A
-  developer has moved a task from 'In Progress' directly to 'Done' without
-  completing the required 'Code Review' and 'Documentation' stages. user: 'I
-  notice several tasks have been marked as complete without going through proper
-  review' assistant: 'I'll use the kanban-process-enforcer agent to audit the
-  board and identify any process violations' <commentary>Since the user is
-  concerned about process compliance, use the kanban-process-enforcer agent to
-  audit the workflow and identify violations.</commentary></example>
-  <example>Context: The team wants to ensure all work items are following the
-  proper kanban process before the sprint review. user: 'Can you check if all
-  our current work items are following the correct process flow?' assistant:
-  'Let me use the kanban-process-enforcer agent to perform a comprehensive audit
-  of our kanban board' <commentary>The user needs a process audit, so use the
-  kanban-process-enforcer agent to check compliance.</commentary></example>
+  board for compliance with workflow rules.
 mode: all
 ---
 

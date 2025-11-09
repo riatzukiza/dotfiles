@@ -60,3 +60,5 @@ bindsym $mod+space exec --no-startup-id rofi -show combi
 # bindsym $mod+F exec --no-startup-id rofi -show files
 # bindsym $mod+P exec --no-startup-id rofi -show drun
 # bindsym $mod+W exec --no-startup-id rofi -show window
+gaps inner 5
+gaps outer 5

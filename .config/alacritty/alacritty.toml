@@ -1,4 +1,3 @@
-
 [cursor.style]
 blinking = "On"
 shape = "Beam"
@@ -17,11 +16,11 @@ multiplier = 3
 
 [window]
 decorations = "none"
-opacity = 0.75
+opacity = 0.66
 
 [window.padding]
 x = 10
 y = 6
 
 [general]
-import = ["/home/err/.config/alacritty/themes/themes/monokai_pro.yaml"]
+import = ["/home/err/.config/alacritty/themes/themes/monokai_pro.toml"]

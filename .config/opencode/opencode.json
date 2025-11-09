@@ -1,38 +1,70 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "plugin": [
+    "@promethean-os/opencode-openai-codex-auth"
+  ],
+
   // "plugin": [
-  //   "@promethean-os/opencode-openai-codex-auth"
-  // ],
-  // "plugin": [
-  //   "file:///home/err/devel/codex/opencode-openai-codex-auth/dist"
+  // The original guys plugin
+  //   "opencode-openai-codex-auth"
   // ],
 
-  "agent":{
-    "plan":{
-      // "tools":{
-      //   "edit":false,
-      //   "serena_list_memories":true,
-      //   "serena_insert*":false,
-      //   "serena_replace*": false,
-      //   "serena_create_text_file":false
-      // }
-    },
-    "reistricted-build":{
-      "permission":{
-        "edit":"ask"
-      }
+  // "plugin": [
+  // my local development version
+  //   "file:///home/err/devel/orgs/riatzukiza/opencode-openai-codex-auth"
+  // ],
+  "agent": {
+    // Typo fixed: "reistricted-build" -> "restricted-build"
+    "restricted-build": {
+      "disable": true,
+      "permission": { "edit": "ask" }
     }
   },
   "provider": {
+    "opencode": {
+      "models": {
+        "big-pickle/thinking": {
+          "name": "Pickle Rick",
+          "id": "big-pickle",
+          "limit": { "context": 200000, "output": 128000 },
+          "options": {
+            "reasoningEffort": "high",
+            "reasoningSummary": "detailed",
+            "textVerbosity": "high",
+            "thinking": { "type": "enabled" },
+            "include": ["reasoning.encrypted_content"],
+            "store": false
+          }
+        }
+      }
+    },
+    "zai-coding-plan": {
+      "models": {
+        "glm-4.6/thinking": {
+          "name": "GLM 4.6 Thinking",
+          "id": "glm-4.6",
+          "limit": { "context": 200000, "output": 128000 },
+          "options": {
+            "reasoningEffort": "high",
+            "reasoningSummary": "detailed",
+            "textVerbosity": "high",
+            "thinking": { "type": "enabled" },
+            "include": ["reasoning.encrypted_content"],
+            "store": false
+          }
+        }
+      }
+    },
     "ollama_openai": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "Ollama OpenAI Compatible",
-      "options": {
-        "baseURL": "http://192.168.12.66:11434/v1"
-      },
+      "options": { "baseURL": "http://localhost:11434/v1" },
       "models": {
-        "error/qwen3:4b-instruct-100k": {
-          "name": "Qwen3 4B Instruct"
+        // Alias -> real id mapping with a usable window
+        "qwen3-4b-100k": {
+          "name": "Qwen3 4B Instruct",
+          "id": "qwen3:4b-instruct-100k",
+          "limit": { "context": 100000, "output": 8192 }
         }
       }
     },
@@ -41,240 +73,141 @@
         "reasoningEffort": "medium",
         "reasoningSummary": "auto",
         "textVerbosity": "medium",
-        "include": [
-          "reasoning.encrypted_content"
-        ],
+        "include": ["reasoning.encrypted_content"],
         "store": false
       },
       "models": {
         "gpt-5-codex-low": {
           "name": "GPT 5 Codex Low (OAuth)",
+          "limit": { "context": 400000, "output": 128000 },
           "options": {
             "reasoningEffort": "low",
             "reasoningSummary": "auto",
             "textVerbosity": "medium",
-            "include": [
-              "reasoning.encrypted_content"
-            ],
+            "include": ["reasoning.encrypted_content"],
             "store": false
           }
         },
         "gpt-5-codex-medium": {
           "name": "GPT 5 Codex Medium (OAuth)",
+          "limit": { "context": 400000, "output": 128000 },
           "options": {
             "reasoningEffort": "medium",
             "reasoningSummary": "auto",
             "textVerbosity": "medium",
-            "include": [
-              "reasoning.encrypted_content"
-            ],
+            "include": ["reasoning.encrypted_content"],
             "store": false
           }
         },
         "gpt-5-codex-high": {
           "name": "GPT 5 Codex High (OAuth)",
+          "limit": { "context": 400000, "output": 128000 },
           "options": {
             "reasoningEffort": "high",
             "reasoningSummary": "detailed",
             "textVerbosity": "medium",
-            "include": [
-              "reasoning.encrypted_content"
-            ],
+            "include": ["reasoning.encrypted_content"],
             "store": false
           }
         },
         "gpt-5-minimal": {
           "name": "GPT 5 Minimal (OAuth)",
+          "limit": { "context": 400000, "output": 128000 },
           "options": {
             "reasoningEffort": "minimal",
             "reasoningSummary": "auto",
             "textVerbosity": "low",
-            "include": [
-              "reasoning.encrypted_content"
-            ],
+            "include": ["reasoning.encrypted_content"],
             "store": false
           }
         },
         "gpt-5-low": {
           "name": "GPT 5 Low (OAuth)",
+          "limit": { "context": 400000, "output": 128000 },
           "options": {
             "reasoningEffort": "low",
             "reasoningSummary": "auto",
             "textVerbosity": "low",
-            "include": [
-              "reasoning.encrypted_content"
-            ],
+            "include": ["reasoning.encrypted_content"],
             "store": false
           }
         },
         "gpt-5-medium": {
           "name": "GPT 5 Medium (OAuth)",
+          "limit": { "context": 400000, "output": 128000 },
           "options": {
             "reasoningEffort": "medium",
             "reasoningSummary": "auto",
             "textVerbosity": "medium",
-            "include": [
-              "reasoning.encrypted_content"
-            ],
+            "include": ["reasoning.encrypted_content"],
             "store": false
           }
         },
         "gpt-5-high": {
           "name": "GPT 5 High (OAuth)",
+          "limit": { "context": 400000, "output": 128000 },
           "options": {
             "reasoningEffort": "high",
             "reasoningSummary": "detailed",
             "textVerbosity": "high",
-            "include": [
-              "reasoning.encrypted_content"
-            ],
+            "include": ["reasoning.encrypted_content"],
             "store": false
           }
         },
         "gpt-5-mini": {
           "name": "GPT 5 Mini (OAuth)",
+          "limit": { "context": 400000, "output": 128000 },
           "options": {
             "reasoningEffort": "low",
             "reasoningSummary": "auto",
             "textVerbosity": "low",
-            "include": [
-              "reasoning.encrypted_content"
-            ],
+            "include": ["reasoning.encrypted_content"],
             "store": false
           }
         },
         "gpt-5-nano": {
           "name": "GPT 5 Nano (OAuth)",
+          "limit": { "context": 400000, "output": 128000 },
           "options": {
             "reasoningEffort": "minimal",
             "reasoningSummary": "auto",
             "textVerbosity": "low",
-            "include": [
-              "reasoning.encrypted_content"
-            ],
+            "include": ["reasoning.encrypted_content"],
             "store": false
           }
         }
       }
     }
   },
-  "mcp":{
+  "mcp": {
     "web-search-prime": {
       "type": "remote",
       "url": "https://api.z.ai/api/mcp/web_search_prime/mcp",
-      "headers": {
-        "Authorization": "Bearer {env:Z_AI_API_KEY}"
-      },
+      "headers": { "Authorization": "Bearer {env:Z_AI_API_KEY}" },
       "enabled": true
     },
     "zai-mcp-server": {
       "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@z_ai/mcp-server"
-      ],
-      "environment": {
-        "Z_AI_API_KEY": "{env:Z_AI_API_KEY}",
-        "Z_AI_MODE": "ZAI"
-      },
+      "command": ["npx", "-y", "@z_ai/mcp-server"],
+      "environment": { "Z_AI_API_KEY": "{env:Z_AI_API_KEY}", "Z_AI_MODE": "ZAI" },
       "enabled": true
     },
-    "playwright": {
-      "type": "remote",
-      "url": "http://localhost:8931",
-      "enabled": true
-    },
-    "chrome-devtools": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "chrome-devtools-mcp@latest"
-      ]
-    },
-    "serena": {
-      "type": "remote",
-      "url":"http://localhost:9121/mcp",
-      "enabled": true
-    },
+    "playwright": { "type": "remote", "url": "http://localhost:8931", "enabled": true },
+    "chrome-devtools": { "type": "local", "command": ["npx", "-y", "chrome-devtools-mcp@latest"] },
+    "serena": { "type": "remote", "url": "http://localhost:9121/mcp", "enabled": true },
     "context7": {
       "type": "remote",
       "url": "https://mcp.context7.com/mcp",
-      "headers": {
-        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
-      },
+      "headers": { "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}" },
       "enabled": true
     },
-    "gh_grep": {
-      "type": "remote",
-      "url": "https://mcp.grep.app",
-      "enabled": true
+    "gh_grep": { "type": "remote", "url": "https://mcp.grep.app", "enabled": true }
+  },
+  "keybinds": { "leader": "ctrl+space" },
+  "lsp": {
+    "clojure": {
+      "command": ["clojure-lsp", "listen"],
+      "extensions": [".clj", ".cljs", ".cljc", ".edn"]
     }
-  },
-  "lsp":{
-
-    "eslint": {
-      "command": [
-        "eslint-lsp",
-        "--stdio"
-      ],
-      "extensions": [
-        ".ts",
-        ".tsx",
-        ".js",
-        ".jsx",
-        ".vue"
-      ]
-    }
-  },
-  "permission": {
-    "bash": {
-      "ls*": "allow",
-      "pnpm build*": "ask",
-      "pnpm test*": "ask",
-      "node *": "ask",
-      "uvx *": "ask",
-      "npx *": "ask",
-      "kill *": "deny",
-      "pkill *": "deny",
-      "pm2 logs": "deny",
-      "pm2 logs * --nostream": "allow",
-      "pm2 stop *": "deny",
-      "pm2 delete *": "deny",
-      "pm2  *": "deny",
-      "rm *": "ask",
-      "bash *": "ask",
-      "unlink *": "ask",
-      "rmdir *": "ask",
-      "chomod *": "ask",
-      "chown *": "ask",
-      "git *": "ask",
-      "git status*": "allow",
-      "git log*": "allow",
-      "git show*": "allow",
-      "git add*": "allow",
-      "git diff*": "allow",
-      "git commit*": "allow",
-      "pnpm kanban*": "allow",
-      "mkdir *{*}": "ask",
-      "cd*&&*": "deny",
-      "*": "allow" // <<< ADD THIS RIGHT HERE
-    }
-  },
-  "keybinds": {
-    "leader": "ctrl+space"
-  },
-  "tools": {
-    "clj*": false,
-    "playwright*":false,
-    "DirectProcess.*":false,
-    "Events.*":false,
-    "Messaging.*":false,
-    "Messages.*":false,
-    "ollama.*":false,
-    "Cache.*":false,
-    "Sessions.*": false,
-    "chrome*":false
   }
 }

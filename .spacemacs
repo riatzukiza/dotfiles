@@ -12,13 +12,12 @@ This function should only modify configuration layer settings."
 
    dotspacemacs-ask-for-lazy-installation t
 
-   dotspacemacs-configuration-layer-path '("~/devel/promethean/.emacs/layers/"
-                                           )
+   dotspacemacs-configuration-layer-path '("~/devel/orgs/riatzukiza/promethean/.emacs/layers/")
 
    dotspacemacs-configuration-layers
    '(purescript
      aider
-     direnv
+     ;; direnv
      openai
      sql
      nginx
@@ -40,7 +39,7 @@ This function should only modify configuration layer settings."
                  javascript-fmt-tool 'prettier
                  node-add-modules-path t
                  )
-     opencode-agent-shell
+     ;; opencode-agent-shell
      html
      toml
      yaml
@@ -314,6 +313,9 @@ before packages are loaded."
 
   (global-flycheck-mode)
   ;; Map TS tree-sitter modes to VSCode language IDs ESLint expects
+  (with-eval-after-load 'lsp-mode
+    (setq lsp-semgrep-languages nil))
+
 
 
   ;; (use-package lsp-ui
@@ -361,7 +363,7 @@ This function is called at the very end of Spacemacs initialization."
    ;; Your init file should contain only one such instance.
    ;; If there is more than one, they won't work right.
    '(package-selected-packages
-     '(a ace-link add-node-modules-path agent-shell aggressive-indent aio alert
+     '(a ace-link acp add-node-modules-path agent-shell aggressive-indent aio alert
          all-the-icons auctex auto-compile auto-highlight-symbol auto-yasnippet
          avy-jump-helm-line browse-at-remote centered-cursor-mode cider
          cider-eval-sexp-fu clean-aindent-mode clojure-mode clojure-snippets
@@ -412,6 +414,8 @@ This function is called at the very end of Spacemacs initialization."
          vterm vundo web-beautify web-completion-data web-mode wgrep winum
          with-editor writeroom-mode ws-butler yaml yaml-mode yasnippet
          yasnippet-snippets))
+   '(package-vc-selected-packages
+     '((agent-shell :url "https://github.com/xenodium/agent-shell")))
    '(safe-local-variable-values
      '((prom/unique-mode-targets (markdown-mode :dir "docs/inbox" :ext ".md")
                                  (org-mode :dir "docs/inbox" :ext ".org")
@@ -430,4 +434,5 @@ This function is called at the very end of Spacemacs initialization."
    ;; If you edit it by hand, you could mess it up, so be careful.
    ;; Your init file should contain only one such instance.
    ;; If there is more than one, they won't work right.
-   ))
+   )
+  )

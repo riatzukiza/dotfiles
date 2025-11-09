@@ -1,132 +1,84 @@
-import type { Plugin } from '@opencode-ai/plugin';
+import type { Plugin } from "@opencode-ai/plugin";
+import { randomUUID } from "node:crypto";
+import { promises as fsp } from "node:fs";
+import { tmpdir } from "node:os";
+import * as path from "node:path";
 
-type FileLock = Readonly<{
+const LOCK_TTL_MS = 5 * 60 * 1000; // 5 minutes
+const CACHE_DIR = path.join(tmpdir(), "opencode", "file-locks");
+
+const WRITE_OPERATION_CONFIG = {
+  exactMatches: [
+    "write",
+    "edit",
+    "create",
+    "mkdir",
+    "touch",
+    "cp",
+    "mv",
+    "rm",
+    "serena_create_text_file",
+    "serena_replace_regex",
+    "serena_replace_symbol_body",
+    "serena_insert_before_symbol",
+    "serena_insert_after_symbol",
+  ],
+  patterns: [
+    /create.*file/i,
+    /write.*file/i,
+    /edit.*file/i,
+    /replace.*file/i,
+    /insert.*file/i,
+    /delete.*file/i,
+    /update.*file/i,
+  ],
+  exclusions: ["read", "list", "get", "find", "search", "view", "show", "inspect"],
+} as const;
+
+type LockRecord = Readonly<{
   sessionId: string;
   timestamp: number;
   agentId?: string;
 }>;
 
-// Use immutable operations with eslint ignore for necessary mutations
-const globalLocks = new Map<string, FileLock>();
-const sessionFilePaths = new Map<string, string>();
+type ActiveCallLock = Readonly<{
+  normalizedPath: string;
+}>;
 
-// Path utilities
-function normalizePath(filePath: string): string {
-  return filePath.replace(/\\/g, '/').normalize();
-}
+const activeLocks = new Map<string, LockRecord>();
+const callLocks = new Map<string, ActiveCallLock>();
 
-// Lock creation and management
-function createLock(sessionId: string, agentId?: string): FileLock {
-  return {
-    sessionId,
-    timestamp: Date.now(),
-    agentId,
-  };
-}
+let globalSessionId: string | undefined;
 
-function addLock(filePath: string, lock: FileLock): void {
-  const normalizedPath = normalizePath(filePath);
-  // eslint-disable-next-line functional/immutable-data
-  globalLocks.set(normalizedPath, lock);
-}
-
-function removeLock(filePath: string): void {
-  const normalizedPath = normalizePath(filePath);
-  // eslint-disable-next-line functional/immutable-data
-  globalLocks.delete(normalizedPath);
-}
-
-// Lock operations
-function acquireLock(filePath: string, sessionId: string, agentId?: string): boolean {
-  const normalizedPath = normalizePath(filePath);
-  const existingLock = globalLocks.get(normalizedPath);
-
-  if (existingLock && existingLock.sessionId !== sessionId) {
-    return false;
-  }
-
-  const newLock = createLock(sessionId, agentId);
-  addLock(normalizedPath, newLock);
-  return true;
-}
-
-function releaseLock(filePath: string, sessionId: string): void {
-  const normalizedPath = normalizePath(filePath);
-  const existingLock = globalLocks.get(normalizedPath);
-
-  if (existingLock && existingLock.sessionId === sessionId) {
-    removeLock(normalizedPath);
-  }
-}
-
-function isLocked(filePath: string, sessionId: string): boolean {
-  const normalizedPath = normalizePath(filePath);
-  const existingLock = globalLocks.get(normalizedPath);
-
-  return existingLock !== undefined && existingLock.sessionId !== sessionId;
-}
-
-function getLockInfo(filePath: string): FileLock | undefined {
-  const normalizedPath = normalizePath(filePath);
-  return globalLocks.get(normalizedPath);
-}
-
-// Lock expiration
-function isLockExpired(lock: FileLock, timeoutMs: number): boolean {
-  return Date.now() - lock.timestamp > timeoutMs;
-}
-
-function getExpiredPaths(): readonly string[] {
-  const lockTimeout = 5 * 60 * 1000; // 5 minutes
-  return Array.from(globalLocks.entries())
-    .filter(([, lock]) => isLockExpired(lock, lockTimeout))
-    .map(([path]) => path);
-}
-
-function cleanupExpiredLocks(): void {
-  const expiredPaths = getExpiredPaths();
-  expiredPaths.forEach(removeLock);
-}
-
-// Tool detection
-function getFilePathFromArgs(args: Record<string, unknown>): string | null {
-  const filePathCandidates = ['filePath', 'relative_path'];
-
-  for (const candidate of filePathCandidates) {
-    const value = args[candidate];
-    if (typeof value === 'string') {
-      return value;
+const ensureCacheDir = (() => {
+  let ready: Promise<void> | undefined;
+  return async () => {
+    if (!ready) {
+      ready = fsp.mkdir(CACHE_DIR, { recursive: true }).then(() => undefined);
     }
+    await ready;
+  };
+})();
+
+function normalizePath(filePath: string): string {
+  return filePath.replace(/\\/g, "/").normalize();
+}
+
+function getSessionId(): string {
+  if (!globalSessionId) {
+    globalSessionId = randomUUID();
   }
-
-  return null;
+  return globalSessionId;
 }
 
-function isFileOperationTool(toolName: string): boolean {
-  const fileTools = [
-    'write',
-    'edit',
-    'read',
-    'serena_create_text_file',
-    'serena_replace_regex',
-    'serena_replace_symbol_body',
-    'serena_insert_before_symbol',
-    'serena_insert_after_symbol',
-  ];
-
-  return fileTools.includes(toolName);
+function makeCallKey(tool: string, callId: string | undefined): string {
+  const safeCall = callId ?? "unknown-call";
+  return `${tool}:${safeCall}`;
 }
 
-// Formatting utilities
-function formatLockInfo(path: string, lock: FileLock): string {
-  const sessionShort = lock.sessionId.substring(0, 8);
-  const agent = lock.agentId || 'unknown';
-  return `${path} (session: ${sessionShort}..., agent: ${agent})`;
-}
-
-function calculateTimeRemaining(lockTimestamp: number): number {
-  const lockTimeout = 5 * 60 * 1000; // 5 minutes
-  return Math.max(0, lockTimeout - (Date.now() - lockTimestamp));
+function computeTimeRemaining(lock: LockRecord): number {
+  const expiresAt = lock.timestamp + LOCK_TTL_MS;
+  return Math.max(0, expiresAt - Date.now());
 }
 
 function formatTimeRemaining(ms: number): string {
@@ -134,90 +86,174 @@ function formatTimeRemaining(ms: number): string {
   return `${minutes} minutes`;
 }
 
-function createLockErrorMessage(filePath: string, lockInfo: FileLock): string {
-  const sessionShort = lockInfo.sessionId.substring(0, 8);
-  const agent = lockInfo.agentId || 'unknown';
-  const timeRemaining = calculateTimeRemaining(lockInfo.timestamp);
-  const timeFormatted = formatTimeRemaining(timeRemaining);
-
+function createLockErrorMessage(filePath: string, lock: LockRecord): string {
+  const sessionShort = lock.sessionId.slice(0, 8);
+  const timeRemaining = formatTimeRemaining(computeTimeRemaining(lock));
+  const agentLabel = lock.agentId ?? "unknown";
   return (
-    `File ${filePath} is locked by another agent (session: ${sessionShort}..., agent: ${agent}). ` +
-    `Lock expires in ${timeFormatted}.`
+    `File ${filePath} is locked by another session (session: ${sessionShort}..., agent: ${agentLabel}). ` +
+    `Lock expires in ${timeRemaining}.`
   );
 }
 
-// Hook implementations
-function createBeforeHook(sessionId: string) {
-  return async (
-    input: { tool: string; sessionID: string; callID: string },
-    output: { args: unknown },
-  ) => {
-    if (!isFileOperationTool(input.tool)) return;
+const cachedWritePatterns = WRITE_OPERATION_CONFIG.patterns;
 
-    const filePath = getFilePathFromArgs(output.args as Record<string, unknown>);
-    if (!filePath) return;
+function isWriteOperation(toolName: string): boolean {
+  const normalized = toolName.toLowerCase();
+  if (
+    WRITE_OPERATION_CONFIG.exclusions.some((prefix) =>
+      normalized.startsWith(prefix),
+    )
+  ) {
+    return false;
+  }
 
-    // Store file path for this session/tool combination
-    // eslint-disable-next-line functional/immutable-data
-    sessionFilePaths.set(`${sessionId}:${input.tool}:${input.callID}`, filePath);
+  if (
+    WRITE_OPERATION_CONFIG.exactMatches.some(
+      (candidate) => candidate === normalized,
+    )
+  ) {
+    return true;
+  }
 
-    cleanupExpiredLocks();
-
-    if (isLocked(filePath, sessionId)) {
-      const lockInfo = getLockInfo(filePath);
-      if (lockInfo) {
-        throw new Error(createLockErrorMessage(filePath, lockInfo));
-      }
-    }
-
-    if (!acquireLock(filePath, sessionId)) {
-      throw new Error(`Failed to acquire lock for file: ${filePath}`);
-    }
-  };
+  return cachedWritePatterns.some((pattern) => pattern.test(normalized));
 }
 
-function createAfterHook(sessionId: string) {
-  return async (input: { tool: string; sessionID: string; callID: string }) => {
-    if (!isFileOperationTool(input.tool)) return;
+function extractFilePath(args: unknown): string | null {
+  if (!args || typeof args !== "object") {
+    return null;
+  }
 
-    // Get the file path that was stored in the before hook
-    const sessionKey = `${sessionId}:${input.tool}:${input.callID}`;
-    const filePath = sessionFilePaths.get(sessionKey);
-
-    if (filePath) {
-      releaseLock(filePath, sessionId);
-      // eslint-disable-next-line functional/immutable-data
-      sessionFilePaths.delete(sessionKey);
+  const record = args as Record<string, unknown>;
+  const candidates = ["filePath", "relative_path"];
+  for (const candidate of candidates) {
+    const value = record[candidate];
+    if (typeof value === "string") {
+      return value;
     }
-  };
+  }
+
+  return null;
 }
 
-function createSessionEndHook(sessionId: string) {
-  return async () => {
-    const sessionLocks = Array.from(globalLocks.entries())
-      .filter(([, lock]) => lock.sessionId === sessionId)
-      .map(([path]) => path);
+async function acquireLock(
+  filePath: string,
+  agentId: string | undefined,
+  sessionId: string,
+): Promise<string> {
+  await ensureCacheDir();
+  const normalizedPath = normalizePath(filePath);
 
-    sessionLocks.forEach((path) => releaseLock(path, sessionId));
+  // Check if file is already locked
+  const existingLock = activeLocks.get(normalizedPath);
+  if (existingLock) {
+    // Same session can access files it already has locks for
+    if (existingLock.sessionId === sessionId) {
+      return normalizedPath;
+    }
+    
+    // Different session has the lock - check expiration
+    if (computeTimeRemaining(existingLock) > 0) {
+      throw new Error(createLockErrorMessage(filePath, existingLock));
+    }
+    
+    // Lock expired, remove it
+    activeLocks.delete(normalizedPath);
+  }
 
-    // Clean up session file paths
-    const keysToDelete = Array.from(sessionFilePaths.keys()).filter((key) =>
-      key.startsWith(`${sessionId}:`),
-    );
-    keysToDelete.forEach((key) => {
-      // eslint-disable-next-line functional/immutable-data
-      sessionFilePaths.delete(key);
-    });
+  // Create new lock record
+  const record: LockRecord = {
+    sessionId,
+    timestamp: Date.now(),
+    agentId,
   };
+
+  activeLocks.set(normalizedPath, record);
+  return normalizedPath;
 }
 
-// Main plugin
-export const FileLockPlugin: Plugin = async (input) => {
-  const sessionId = Math.random().toString(36).substring(7);
+async function releaseLock(
+  normalizedPath: string,
+  sessionId: string,
+): Promise<void> {
+  const existingLock = activeLocks.get(normalizedPath);
+  if (!existingLock) {
+    return;
+  }
+
+  // Only the session that owns the lock can release it
+  if (existingLock.sessionId !== sessionId) {
+    return;
+  }
+
+  activeLocks.delete(normalizedPath);
+}
+
+async function releaseAllLocks(sessionId: string): Promise<void> {
+  // Release all locks owned by this session
+  const locksToRemove: string[] = [];
+  for (const [path, lock] of activeLocks.entries()) {
+    if (lock.sessionId === sessionId) {
+      locksToRemove.push(path);
+    }
+  }
+  
+  for (const path of locksToRemove) {
+    activeLocks.delete(path);
+  }
+
+  callLocks.clear();
+}
+
+export const FileLockPlugin: Plugin = async (pluginInput) => {
+  const sessionId = getSessionId();
+  let agentId: string | undefined;
+
+  if (pluginInput && typeof pluginInput === "object") {
+    const candidate = pluginInput as Record<string, unknown>;
+    const maybeAgent = candidate.agentID ?? candidate.agentId;
+    if (typeof maybeAgent === "string") {
+      agentId = maybeAgent;
+    }
+  }
 
   return {
-    'tool.execute.before': createBeforeHook(sessionId),
-    'tool.execute.after': createAfterHook(sessionId),
-    'session.end': createSessionEndHook(sessionId),
+    async "tool.execute.before"(input, output) {
+      if (!isWriteOperation(input.tool)) {
+        return;
+      }
+
+      const filePath = extractFilePath(output.args);
+      if (!filePath) {
+        return;
+      }
+
+      const callKey = makeCallKey(input.tool, input.callID);
+      if (callLocks.has(callKey)) {
+        return;
+      }
+
+      const normalizedPath = await acquireLock(filePath, agentId, sessionId);
+      callLocks.set(callKey, { normalizedPath });
+    },
+
+    async "tool.execute.after"(input) {
+      if (!isWriteOperation(input.tool)) {
+        return;
+      }
+
+      const callKey = makeCallKey(input.tool, input.callID);
+      const activeLock = callLocks.get(callKey);
+      if (!activeLock) {
+        return;
+      }
+
+      await releaseLock(activeLock.normalizedPath, sessionId);
+      callLocks.delete(callKey);
+    },
+
+    async "session.end"() {
+      await releaseAllLocks(sessionId).catch(() => undefined);
+    },
   };
 };

@@ -1,0 +1,10 @@
+{
+  "model": "opencode/big-pickle/thinking",
+  "mode": "primary",
+  "permission": {
+    "bash": {"*": "allow"},
+    "edit": "allow",
+    "read": "allow",
+    "grep": "allow"
+  }
+}

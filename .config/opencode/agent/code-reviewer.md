@@ -1,20 +1,9 @@
 ---
 description: >-
   Use this agent when you need thorough code review and feedback on recently
-  written code, functions, classes, or modules. Examples: <example>Context: The
-  user has just implemented a new authentication function. user: 'I just wrote
-  this login function, can you check it?' assistant: 'I'll use the code-reviewer
-  agent to thoroughly analyze your login function for security issues, best
-  practices, and potential improvements.' <commentary>Since the user is
-  requesting code review, use the code-reviewer agent to provide comprehensive
-  feedback.</commentary></example> <example>Context: The user has completed a
-  feature implementation. user: 'Here's my new user management module, what do
-  you think?' assistant: 'Let me use the code-reviewer agent to review your user
-  management module for architecture, security, and code quality.'
-  <commentary>The user is seeking feedback on completed code, so use the
-  code-reviewer agent for detailed analysis.</commentary></example>
-mode: all
-model: zai-coding-plan/glm-4.6
+  written code, functions, classes, or modules.
+mode: subagent
+model: zai-coding-plan/glm-4.5
 tools:
   write: false
   edit: false
