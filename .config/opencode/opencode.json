@@ -5,6 +5,12 @@
   ],
 
   // "plugin": [
+  // The original guys plugin
+  //   "opencode-openai-codex-auth"
+  // ],
+
+  // "plugin": [
+  // my local development version
   //   "file:///home/err/devel/orgs/riatzukiza/opencode-openai-codex-auth"
   // ],
   "agent": {
