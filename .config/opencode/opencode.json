@@ -1,17 +1,41 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": [
-    "opencode-openai-codex-auth"
-  ],
+  // "plugin": [
+  //   "@promethean-os/opencode-openai-codex-auth"
+  // ],
+  // "plugin": [
+  //   "file:///home/err/devel/codex/opencode-openai-codex-auth/dist"
+  // ],
+
   "agent":{
+    "plan":{
+      // "tools":{
+      //   "edit":false,
+      //   "serena_list_memories":true,
+      //   "serena_insert*":false,
+      //   "serena_replace*": false,
+      //   "serena_create_text_file":false
+      // }
+    },
     "reistricted-build":{
-      "disable":true,
       "permission":{
         "edit":"ask"
       }
     }
   },
   "provider": {
+    "ollama_openai": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama OpenAI Compatible",
+      "options": {
+        "baseURL": "http://192.168.12.66:11434/v1"
+      },
+      "models": {
+        "error/qwen3:4b-instruct-100k": {
+          "name": "Qwen3 4B Instruct"
+        }
+      }
+    },
     "openai": {
       "options": {
         "reasoningEffort": "medium",
@@ -191,7 +215,6 @@
   "lsp":{
 
     "eslint": {
-      "enabled": true,
       "command": [
         "eslint-lsp",
         "--stdio"
