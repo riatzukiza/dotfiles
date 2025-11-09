@@ -1,32 +1,27 @@
-import type { Plugin } from '@opencode-ai/plugin';
-import { randomUUID } from 'node:crypto';
-import { promises as fsp } from 'node:fs';
-import { tmpdir } from 'node:os';
-import * as path from 'node:path';
-
-import type { Cache } from '@promethean-os/level-cache';
-import { openLevelCache } from '@promethean-os/level-cache';
-import { createHybridCache, type HybridCacheConfig, type CacheBackend } from './redis-hybrid-cache';
+import type { Plugin } from "@opencode-ai/plugin";
+import { randomUUID } from "node:crypto";
+import { promises as fsp } from "node:fs";
+import { tmpdir } from "node:os";
+import * as path from "node:path";
 
 const LOCK_TTL_MS = 5 * 60 * 1000; // 5 minutes
-const CACHE_DIR = path.join(tmpdir(), 'opencode', 'file-locks');
-const CACHE_NAMESPACE = 'locks';
+const CACHE_DIR = path.join(tmpdir(), "opencode", "file-locks");
 
 const WRITE_OPERATION_CONFIG = {
   exactMatches: [
-    'write',
-    'edit',
-    'create',
-    'mkdir',
-    'touch',
-    'cp',
-    'mv',
-    'rm',
-    'serena_create_text_file',
-    'serena_replace_regex',
-    'serena_replace_symbol_body',
-    'serena_insert_before_symbol',
-    'serena_insert_after_symbol',
+    "write",
+    "edit",
+    "create",
+    "mkdir",
+    "touch",
+    "cp",
+    "mv",
+    "rm",
+    "serena_create_text_file",
+    "serena_replace_regex",
+    "serena_replace_symbol_body",
+    "serena_insert_before_symbol",
+    "serena_insert_after_symbol",
   ],
   patterns: [
     /create.*file/i,
@@ -37,7 +32,7 @@ const WRITE_OPERATION_CONFIG = {
     /delete.*file/i,
     /update.*file/i,
   ],
-  exclusions: ['read', 'list', 'get', 'find', 'search', 'view', 'show', 'inspect'],
+  exclusions: ["read", "list", "get", "find", "search", "view", "show", "inspect"],
 } as const;
 
 type LockRecord = Readonly<{
@@ -50,11 +45,10 @@ type ActiveCallLock = Readonly<{
   normalizedPath: string;
 }>;
 
-const sessionHoldCounts = new Map<string, number>();
+const activeLocks = new Map<string, LockRecord>();
 const callLocks = new Map<string, ActiveCallLock>();
 
 let globalSessionId: string | undefined;
-let cachePromise: Promise<Cache<LockRecord>> | undefined;
 
 const ensureCacheDir = (() => {
   let ready: Promise<void> | undefined;
@@ -66,53 +60,8 @@ const ensureCacheDir = (() => {
   };
 })();
 
-const getLockCache = async () => {
-  if (!cachePromise) {
-    cachePromise = (async () => {
-      // Determine cache backend from environment or default to hybrid
-      const cacheBackend = (process.env.FILE_LOCK_CACHE_BACKEND as CacheBackend) || 'hybrid';
-      
-      const hybridConfig: HybridCacheConfig = {
-        backend: cacheBackend,
-        leveldbPath: CACHE_DIR,
-        fallbackOnError: true,
-      };
-
-      // Add Redis config if needed
-      if (cacheBackend === 'redis' || cacheBackend === 'hybrid') {
-        hybridConfig.redisConfig = {
-          url: process.env.REDIS_URL,
-          host: process.env.REDIS_HOST || 'localhost',
-          port: parseInt(process.env.REDIS_PORT || '6379'),
-          password: process.env.REDIS_PASSWORD,
-          database: parseInt(process.env.REDIS_DATABASE || '0'),
-          connectTimeout: 10000,
-          commandTimeout: 5000,
-        };
-      }
-
-      const cache = createHybridCache<LockRecord>(hybridConfig, {
-        namespace: CACHE_NAMESPACE,
-        defaultTtlMs: LOCK_TTL_MS,
-      });
-
-      // Log cache configuration for debugging
-      console.log(`🔐 FileLock: Using ${cacheBackend} backend (fallback: ${hybridConfig.fallbackOnError})`);
-      
-      // Perform health check
-      if (process.env.DEBUG_FILE_LOCK_CACHE === 'true') {
-        const health = await cache.healthCheck();
-        console.log(`🔐 FileLock: Health check:`, health);
-      }
-
-      return cache;
-    })();
-  }
-  return cachePromise;
-};
-
 function normalizePath(filePath: string): string {
-  return filePath.replace(/\\/g, '/').normalize();
+  return filePath.replace(/\\/g, "/").normalize();
 }
 
 function getSessionId(): string {
@@ -123,7 +72,7 @@ function getSessionId(): string {
 }
 
 function makeCallKey(tool: string, callId: string | undefined): string {
-  const safeCall = callId ?? 'unknown-call';
+  const safeCall = callId ?? "unknown-call";
   return `${tool}:${safeCall}`;
 }
 
@@ -140,9 +89,9 @@ function formatTimeRemaining(ms: number): string {
 function createLockErrorMessage(filePath: string, lock: LockRecord): string {
   const sessionShort = lock.sessionId.slice(0, 8);
   const timeRemaining = formatTimeRemaining(computeTimeRemaining(lock));
-  const agentLabel = lock.agentId ?? 'unknown';
+  const agentLabel = lock.agentId ?? "unknown";
   return (
-    `File ${filePath} is locked by another agent (session: ${sessionShort}..., agent: ${agentLabel}). ` +
+    `File ${filePath} is locked by another session (session: ${sessionShort}..., agent: ${agentLabel}). ` +
     `Lock expires in ${timeRemaining}.`
   );
 }
@@ -151,11 +100,19 @@ const cachedWritePatterns = WRITE_OPERATION_CONFIG.patterns;
 
 function isWriteOperation(toolName: string): boolean {
   const normalized = toolName.toLowerCase();
-  if (WRITE_OPERATION_CONFIG.exclusions.some((prefix) => normalized.startsWith(prefix))) {
+  if (
+    WRITE_OPERATION_CONFIG.exclusions.some((prefix) =>
+      normalized.startsWith(prefix),
+    )
+  ) {
     return false;
   }
 
-  if (WRITE_OPERATION_CONFIG.exactMatches.some((candidate) => candidate === normalized)) {
+  if (
+    WRITE_OPERATION_CONFIG.exactMatches.some(
+      (candidate) => candidate === normalized,
+    )
+  ) {
     return true;
   }
 
@@ -163,15 +120,15 @@ function isWriteOperation(toolName: string): boolean {
 }
 
 function extractFilePath(args: unknown): string | null {
-  if (!args || typeof args !== 'object') {
+  if (!args || typeof args !== "object") {
     return null;
   }
 
   const record = args as Record<string, unknown>;
-  const candidates = ['filePath', 'relative_path'];
+  const candidates = ["filePath", "relative_path"];
   for (const candidate of candidates) {
     const value = record[candidate];
-    if (typeof value === 'string') {
+    if (typeof value === "string") {
       return value;
     }
   }
@@ -184,100 +141,84 @@ async function acquireLock(
   agentId: string | undefined,
   sessionId: string,
 ): Promise<string> {
+  await ensureCacheDir();
   const normalizedPath = normalizePath(filePath);
-  const currentCount = sessionHoldCounts.get(normalizedPath) ?? 0;
 
-  if (currentCount > 0) {
-    sessionHoldCounts.set(normalizedPath, currentCount + 1);
-    return normalizedPath;
-  }
-
-  const cache = await getLockCache();
-  const existingLock = await cache.get(normalizedPath);
-
+  // Check if file is already locked
+  const existingLock = activeLocks.get(normalizedPath);
   if (existingLock) {
+    // Same session can access files it already has locks for
     if (existingLock.sessionId === sessionId) {
-      sessionHoldCounts.set(normalizedPath, currentCount + 1);
-      await cache.set(normalizedPath, {
-        sessionId,
-        timestamp: Date.now(),
-        agentId,
-      });
       return normalizedPath;
     }
-
+    
+    // Different session has the lock - check expiration
     if (computeTimeRemaining(existingLock) > 0) {
       throw new Error(createLockErrorMessage(filePath, existingLock));
     }
+    
+    // Lock expired, remove it
+    activeLocks.delete(normalizedPath);
   }
 
+  // Create new lock record
   const record: LockRecord = {
     sessionId,
     timestamp: Date.now(),
     agentId,
   };
 
-  await cache.set(normalizedPath, record);
-  sessionHoldCounts.set(normalizedPath, 1);
+  activeLocks.set(normalizedPath, record);
   return normalizedPath;
 }
 
-async function releaseLock(normalizedPath: string, sessionId: string): Promise<void> {
-  const currentCount = sessionHoldCounts.get(normalizedPath);
-  if (currentCount === undefined) {
+async function releaseLock(
+  normalizedPath: string,
+  sessionId: string,
+): Promise<void> {
+  const existingLock = activeLocks.get(normalizedPath);
+  if (!existingLock) {
     return;
   }
 
-  if (currentCount > 1) {
-    sessionHoldCounts.set(normalizedPath, currentCount - 1);
+  // Only the session that owns the lock can release it
+  if (existingLock.sessionId !== sessionId) {
     return;
   }
 
-  sessionHoldCounts.delete(normalizedPath);
-  const cache = await getLockCache();
-  const existing = await cache.get(normalizedPath);
-  if (!existing) {
-    return;
-  }
-
-  if (existing.sessionId !== sessionId) {
-    return;
-  }
-
-  await cache.del(normalizedPath);
+  activeLocks.delete(normalizedPath);
 }
 
 async function releaseAllLocks(sessionId: string): Promise<void> {
-  const cache = await getLockCache();
-  const paths = Array.from(sessionHoldCounts.keys());
-  await Promise.all(
-    paths.map(async (normalizedPath) => {
-      sessionHoldCounts.set(normalizedPath, 1);
-      await releaseLock(normalizedPath, sessionId);
-    }),
-  );
+  // Release all locks owned by this session
+  const locksToRemove: string[] = [];
+  for (const [path, lock] of activeLocks.entries()) {
+    if (lock.sessionId === sessionId) {
+      locksToRemove.push(path);
+    }
+  }
+  
+  for (const path of locksToRemove) {
+    activeLocks.delete(path);
+  }
 
-  sessionHoldCounts.clear();
   callLocks.clear();
-
-  // cleanup any expired entries to keep DB tidy
-  await cache.sweepExpired().catch(() => undefined);
 }
 
 export const FileLockPlugin: Plugin = async (pluginInput) => {
   const sessionId = getSessionId();
   let agentId: string | undefined;
 
-  if (pluginInput && typeof pluginInput === 'object') {
+  if (pluginInput && typeof pluginInput === "object") {
     const candidate = pluginInput as Record<string, unknown>;
     const maybeAgent = candidate.agentID ?? candidate.agentId;
-    if (typeof maybeAgent === 'string') {
+    if (typeof maybeAgent === "string") {
       agentId = maybeAgent;
     }
   }
 
   return {
-    async 'tool.execute.before'(input, output) {
+    async "tool.execute.before"(input, output) {
       if (!isWriteOperation(input.tool)) {
         return;
       }
@@ -296,7 +237,7 @@ export const FileLockPlugin: Plugin = async (pluginInput) => {
       callLocks.set(callKey, { normalizedPath });
     },
 
-    async 'tool.execute.after'(input) {
+    async "tool.execute.after"(input) {
       if (!isWriteOperation(input.tool)) {
         return;
       }
@@ -311,7 +252,7 @@ export const FileLockPlugin: Plugin = async (pluginInput) => {
       callLocks.delete(callKey);
     },
 
-    async 'session.end'() {
+    async "session.end"() {
       await releaseAllLocks(sessionId).catch(() => undefined);
     },
   };
