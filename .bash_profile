@@ -2,7 +2,7 @@
 . "$HOME/.cargo/env"
 
 # bun
-# emacs --daemon
+emacs --daemon
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
@@ -112,4 +112,3 @@ export GTK_THEME=Yaru-dark
 export QT_QPA_PLATFORMTHEME=qt5ct
 export QT_STYLE_OVERRIDE=kvantum
 . "$HOME/.cargo/env"
-
