@@ -27,6 +27,10 @@ jobs:
     env:
       ETA_MU_APP_ID_PRESENT: ${{ secrets.ETA_MU_APP_ID != '' }}
       ETA_MU_APP_PRIVATE_KEY_PRESENT: ${{ secrets.ETA_MU_APP_PRIVATE_KEY != '' }}
+      ETA_MU_MODEL_PROVIDER_PRESENT: ${{ vars.ETA_MU_MODEL_PROVIDER != '' }}
+      OPENAI_API_KEY_PRESENT: ${{ secrets.OPENAI_API_KEY != '' }}
+      ANTHROPIC_API_KEY_PRESENT: ${{ secrets.ANTHROPIC_API_KEY != '' }}
+      GEMINI_API_KEY_PRESENT: ${{ secrets.GEMINI_API_KEY != '' }}
     steps:
       - name: Checkout target repository
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
@@ -64,6 +68,7 @@ jobs:
         run: pnpm --dir .eta-mu install --frozen-lockfile
 
       - name: Run eta-mu event handler
+        if: ${{ env.ETA_MU_MODEL_PROVIDER_PRESENT == 'true' || env.OPENAI_API_KEY_PRESENT == 'true' || env.ANTHROPIC_API_KEY_PRESENT == 'true' || env.GEMINI_API_KEY_PRESENT == 'true' }}
         env:
           GITHUB_TOKEN: ${{ steps.eta_mu_token.outputs.token != '' && steps.eta_mu_token.outputs.token || github.token }}
           ETA_MU_APP_ID: ${{ secrets.ETA_MU_APP_ID }}
