@@ -260,3 +260,4 @@ export GTK_THEME=Yaru-dark
 export QT_QPA_PLATFORMTHEME=qt5ct
 export QT_STYLE_OVERRIDE=kvantum
 . "$HOME/.cargo/env"
+export PATH="/home/err/.bun/bin:$PATH"
